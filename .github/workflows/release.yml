@@ -37,7 +37,7 @@ jobs:
     - name: Verify ISCC
       shell: pwsh
       run: |
-        iscc /?
+        Get-Command iscc
 
     - name: Install Dependencies
       run: |
