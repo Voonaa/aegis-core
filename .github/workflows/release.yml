@@ -45,55 +45,33 @@ jobs:
 
     - name: Assemble Final Release Assets
       run: |
-        # Collect and move setup files to build folder
+        # Verify all built release binaries and notes exist in reports/release
         $ReleaseDir = "reports/release"
-        $ZipPath = Join-Path $ReleaseDir "aegis_portable.zip"
+        Get-ChildItem -Path $ReleaseDir
         
-        # Verify ZIP and EXE files exist
-        Get-ChildItem -Path $ReleaseDir -Recurse
-        
-        # Build checksum manifest of release binaries
-        $ChecksumFile = Join-Path $ReleaseDir "SHA256SUMS.txt"
-        $HashLines = @()
-        
-        # Add hashes for ZIP and EXE installers
-        Get-ChildItem -Path $ReleaseDir -Filter "*.zip" | ForEach-Object {
-            $Hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLower()
-            $HashLines += "$Hash  $($_.Name)"
-        }
-        Get-ChildItem -Path $ReleaseDir -Filter "*.exe" | ForEach-Object {
-            $Hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLower()
-            $HashLines += "$Hash  $($_.Name)"
-        }
-        
-        $HashLines | Out-File -FilePath $ChecksumFile -Encoding ascii -NoNewline
-        Write-Host "Generated SHA256SUMS.txt"
+        if (-not (Test-Path "$ReleaseDir/AegisSetup.exe")) { throw "AegisSetup.exe is missing" }
+        if (-not (Test-Path "$ReleaseDir/AegisPortable.zip")) { throw "AegisPortable.zip is missing" }
+        if (-not (Test-Path "$ReleaseDir/checksums.sha256")) { throw "checksums.sha256 is missing" }
+        if (-not (Test-Path "$ReleaseDir/release_notes.md")) { throw "release_notes.md is missing" }
+        if (-not (Test-Path "reports/coverage/coverage.xml")) { throw "coverage.xml is missing" }
+        if (-not (Test-Path "reports/benchmark/benchmark.md")) { throw "benchmark.md is missing" }
+        if (-not (Test-Path "reports/benchmark/benchmark.json")) { throw "benchmark.json is missing" }
       shell: pwsh
 
     - name: Publish GitHub Release
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          reports/release/*.zip
-          reports/release/*.exe
-          reports/release/SHA256SUMS.txt
-          reports/release/aegis_v1.0.0_portable/build_metadata.json
+          reports/release/AegisSetup.exe
+          reports/release/AegisPortable.zip
+          reports/release/checksums.sha256
+          reports/release/release_notes.md
+          reports/coverage/coverage.xml
+          reports/benchmark/benchmark.md
+          reports/benchmark/benchmark.json
+        body_path: reports/release/release_notes.md
         draft: false
         prerelease: true
         name: Aegis Core Release ${{ github.ref_name }}
-        body: |
-          🛡 Aegis Core Platform Production Release ${{ github.ref_name }}
-          
-          This release contains the verified Aegis Core Platform portable package and Windows Installer executable.
-          
-          ### 📦 Dynamic Release Artifacts
-          - **Aegis_Setup_v*.exe**: Dynamic Inno Setup Windows installer executable.
-          - **aegis_portable.zip**: Dynamic portable release package zip.
-          - **SHA256SUMS.txt**: Calculated verification hashes.
-          
-          ### 🛠 Verification & Quality
-          - Pytest Coverage: Passed (99/99 passed)
-          - Quality Gates: Ruff & MyPy static checker validated.
-          - Observability Engine: Enabled.
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

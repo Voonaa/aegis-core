@@ -8,6 +8,10 @@
   #define OutputBaseFilename "Aegis_Setup_v1.0.0-rc4"
 #endif
 
+#ifndef SourceDir
+  #define SourceDir "..\reports\release\aegis_v1.0.0_portable"
+#endif
+
 [Setup]
 AppName=Aegis Core Platform
 AppVersion={#MyAppVersion}
@@ -29,7 +33,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\reports\release\aegis_v1.0.0_portable\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
+Source: "{#SourceDir}\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\Aegis Core Platform"; Filename: "{app}\Aegis.bat"; IconFilename: "{app}\apps\desktop\ui\assets\icon.ico"; Flags: runminimized

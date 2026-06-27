@@ -3,19 +3,22 @@
 ![Aegis Core Platform Banner](assets/banner.png)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Voonaa/aegis-core/ci.yml?branch=develop&label=CI&logo=githubactions&logoColor=white)](https://github.com/Voonaa/aegis-core/actions)
-[![Release](https://img.shields.io/github/v/release/Voonaa/aegis-core?label=release&color=orange&logo=github)](https://github.com/Voonaa/aegis-core/releases)
-[![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-3776ab?logo=python&logoColor=white)](https://www.python.org/)
+[![Latest Release](https://img.shields.io/github/v/release/Voonaa/aegis-core?label=release&color=orange&logo=github)](https://github.com/Voonaa/aegis-core/releases)
+[![Downloads](https://img.shields.io/github/downloads/Voonaa/aegis-core/total?color=blue&logo=github)](https://github.com/Voonaa/aegis-core/releases)
 [![License](https://img.shields.io/github/license/Voonaa/aegis-core?color=blue)](LICENSE)
 [![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4?logo=windows&logoColor=white)](#)
-[![Tests](https://img.shields.io/badge/tests-99%20passed-22c55e?logo=pytest&logoColor=white)](https://github.com/Voonaa/aegis-core/actions)
+[![Tests](https://img.shields.io/badge/tests-105%20passed-22c55e?logo=pytest&logoColor=white)](https://github.com/Voonaa/aegis-core/actions)
 [![Coverage](https://img.shields.io/badge/coverage-80%25%2B-4ade80)](#)
-[![MyPy](https://img.shields.io/badge/typed-mypy-2a6db5)](https://mypy-lang.org/)
 [![Ruff](https://img.shields.io/badge/linter-ruff-ef4444)](https://docs.astral.sh/ruff/)
+[![MyPy](https://img.shields.io/badge/typed-mypy-2a6db5)](https://mypy-lang.org/)
+[![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-3776ab?logo=python&logoColor=white)](https://www.python.org/)
 
 > **One Click. One Platform. Total Control.**
 > An enterprise-grade, modular Windows Diagnostics & System Management Platform engineered to analyze hardware telemetry, run async repair jobs, and dynamically score host health.
 
 *Built for Windows diagnostics, optimization, and hardware telemetry with enterprise-grade architecture.*
+
+**Current Stable Version:** `1.0.0`
 
 ---
 
@@ -28,6 +31,8 @@
 - [Core Technologies](#-core-technologies)
 - [Architecture](#-architecture)
 - [Documentation](#-documentation)
+- [Installation](#-installation)
+- [Verify Download](#-verify-download)
 - [Download](#-download)
 - [License](#-license)
 - [Contributors](#-contributors)
@@ -150,12 +155,58 @@ Hardware (WMI/psutil) → HAL → TelemetrySnapshot → HealthEngine → EventBu
 
 ---
 
+## ⚙️ Installation
+
+```text
+Download
+   ↓
+Verify SHA256
+   ↓
+Run Installer
+   ↓
+Launch Aegis
+   ↓
+  Done
+```
+
+### Installer (.exe)
+1. Download **AegisSetup.exe** from the [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) page.
+2. Run the executable and follow the setup wizard.
+3. Once completed, you can launch Aegis from the Start Menu or Desktop shortcut.
+
+### Portable ZIP
+1. Download **AegisPortable.zip** from the [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) page.
+2. Extract the ZIP archive content to any directory of your choice.
+3. Run the bootstrap launcher **Aegis.bat** to start the application instantly.
+
+### Requirements
+- **Windows Version**: Windows 10 or Windows 11 (64-bit architecture) is required for native WMI querying capabilities.
+- **Python Version**: Python 3.11, 3.12, or 3.14 (pre-installed when running in portable source mode).
+
+---
+
+## 🔍 Verify Download
+
+To verify the integrity and safety of the downloaded files, you can check their SHA-256 checksums locally:
+
+```powershell
+# Verify the installer executable
+certutil -hashfile AegisSetup.exe SHA256
+
+# Verify the portable zip archive
+certutil -hashfile AegisPortable.zip SHA256
+```
+
+Compare the generated hash output with the official values listed inside [checksums.sha256](reports/release/checksums.sha256) or on the release attachments.
+
+---
+
 ## 📦 Download
 
 | Package | Format | Link |
 |:---|:---:|:---|
-| Portable Edition | `.zip` | [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) |
-| Windows Installer | `.exe` | [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) |
+| AegisPortable.zip | `.zip` | [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) |
+| AegisSetup.exe | `.exe` | [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) |
 
 SHA256 checksums are provided for every release artifact.
 

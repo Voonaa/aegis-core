@@ -36,9 +36,7 @@ logs/
 temp/
 backup/
 *.exe
-reports/release/*.zip
-reports/release/*.exe
-reports/coverage/
+reports/
 htmlcov/
 .coverage
 
@@ -53,3 +51,9 @@ htmlcov/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# Dynamic DBs
+telemetry_history.db
+*telemetry_history.db*
+*.db
+
