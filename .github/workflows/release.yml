@@ -22,8 +22,15 @@ jobs:
         python-version: '3.12'
         cache: 'pip'
 
-    - name: Set up Inno Setup Compiler (ISCC)
-      uses: fleskesvor/setup-iscc@v1
+    - name: Install Inno Setup
+      shell: pwsh
+      run: |
+        choco install innosetup -y
+
+    - name: Verify ISCC
+      shell: pwsh
+      run: |
+        iscc /?
 
     - name: Install Dependencies
       run: |
