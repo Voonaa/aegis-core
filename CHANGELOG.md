@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0-final] - 2026-06-27
+## [1.0.0] - 2026-06-27
 
 ### Added
 - **Release Experience Hardening (Epic 3 Polish)**: Boosted total project coverage to 70% by writing test suites for bootstrap process, command registry, privilege UAC checks, and report generators.

@@ -4,7 +4,7 @@ All notable changes to the Aegis Core Platform project are documented here. The 
 
 ---
 
-## [1.0.0-final] - 2026-06-27
+## [1.0.0] - 2026-06-27
 
 ### Added
 - **Release Experience Hardening (Epic 3 Polish)**: Boosted total project coverage to 70% by writing test suites for bootstrap process, command registry, privilege UAC checks, and report generators.
