@@ -26,7 +26,8 @@ This file is the single source of truth for the current state of development. **
   - RC1 (Monorepo Restructure, Static Checks & Hardening)
   - RC2 (UX & Design Tokens Layout Calibration)
   - RC3 (Distribution & Release Engineering Automation)
-* **Current Active Focus**: Dogfooding Stage (Stability trials & validation).
+  - Gold Sprint 1 (Real Hardware Integration)
+* **Current Active Focus**: Gold Sprint 2 (Beautiful Dashboard Layout & Live Charts).
 
 ### File Registry Status
 * `requirements.txt`: **[COMPLETED]** - Dependencies for Aegis.
