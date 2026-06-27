@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0-rc4] - 2026-06-27
 
 ### Added
+- **Inno Setup Runner Hardening**: Integrated `fleskesvor/setup-iscc` action inside GitHub workflows to ensure deterministic compiler availability on virtual machine builds.
+- **Aegis CLI & Release Roadmap Docs**: Documented CLI module commands reference table and visual roadmap stages in primary README.md.
 - **GitHub Release Automation Workflow**: Created `.github/workflows/release.yml` triggering automated ZIP builds, EXE compilations via ISCC, and softprops draft release publications on tag push.
 - **SDK API Documentation Pages**: Documented developers API modules at `docs/api/hardware.md`, `docs/api/repair.md`, and `docs/api/plugin.md`.
 - **Release Compression Automation**: Built dynamic Compress-Archive zip creation inside `release.ps1` to yield portable `.zip` archives.

@@ -94,6 +94,30 @@ $env:PYTHONPATH="."
 python apps/desktop/main.py
 ```
 
+### 💻 Command Line Interface (CLI) Reference
+Aegis Core Platform bundles a command-line interface for headless execution and automated diagnostics. Run using the module launcher:
+
+| Command | Description | Example |
+| :--- | :--- | :--- |
+| `python -m packages.core.cli telemetry stats` | Queries CPU, RAM, Disk, and Battery diagnostics metrics and shows a console dashboard. | `python -m packages.core.cli telemetry stats` |
+| `python -m packages.core.cli telemetry export <format>` | Exports historical telemetry diagnostics. Supports format: `csv`, `json`, `md`, `html`. | `python -m packages.core.cli telemetry export csv` |
+| `python -m packages.core.cli telemetry clean` | Wipes the historical telemetry SQLite database records. | `python -m packages.core.cli telemetry clean` |
+| `python -m packages.core.cli help` | Displays list of CLI commands and configuration syntax guides. | `python -m packages.core.cli help` |
+
+---
+
+## 🗺 Production Release Roadmap
+
+```text
+                  AEGIS CORE PLATFORM ROADMAP
+  
+   Sprint 0-6       RC 1-3          RC 4 (Final Polish)   v1.0.0 Stable
+  [Fitur Inti] ──► [Hardening] ──► [Release Validation] ──► [Production]
+   ✔ HAL & Core    ✔ Monorepo      ✔ SSOT version.txt       🚀 Production
+   ✔ Desktop UI    ✔ Checksums     ✔ GitHub Actions Release    Distribution
+   ✔ Plugin SDK    ✔ Codesign Ready✔ API SDK docs
+```
+
 ---
 
 ## 🔌 Writing Plugins (Aegis Plugin SDK)
