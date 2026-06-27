@@ -41,10 +41,9 @@ This file is the single source of truth for the current state of development. **
 * `pyproject.toml`: **[COMPLETED]** - Static checks configurations for ruff and mypy.
 * `.gitignore`: **[COMPLETED]** - Exclusions.
 * `CHANGELOG.md`: **[COMPLETED]** - Release tracking logs.
-* `.github/`: **[COMPLETED]** - Issue and PR collaboration templates.
+* `.github/`: **[COMPLETED]** - Issue, PR, and GitHub Release Action (`release.yml`) workflows.
 * `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SUPPORTED_HARDWARE.md`: **[COMPLETED]** - Repository policy documents.
-* `.github/workflows/ci.yml`: **[COMPLETED]** - Pipeline validation script.
-* `docs/SRS.md` to `docs/DEVELOPMENT_SETUP.md`: **[COMPLETED]** - Engineering and setup sheets.
+* `docs/SRS.md`, `docs/api/` (SDK docs): **[COMPLETED]** - Engineering and developer API specification guides.
 * `apps/desktop/`: **[COMPLETED]** - Desktop UI wrapper (`main.py`, `app.py`, `ui/`, `config/`).
 * `packages/core/`: **[COMPLETED]** - Core platform operational logic.
 * `packages/sdk/`: **[COMPLETED]** - SDK wrapper entry points.

@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0-rc4] - 2026-06-27
 
 ### Added
+- **GitHub Release Automation Workflow**: Created `.github/workflows/release.yml` triggering automated ZIP builds, EXE compilations via ISCC, and softprops draft release publications on tag push.
+- **SDK API Documentation Pages**: Documented developers API modules at `docs/api/hardware.md`, `docs/api/repair.md`, and `docs/api/plugin.md`.
+- **Release Compression Automation**: Built dynamic Compress-Archive zip creation inside `release.ps1` to yield portable `.zip` archives.
 - **UI Screenshots Automation**: Added a dynamic screenshot capture loop (`--capture-screenshots`) inside the desktop Tkinter main loop to automatically save client area page frames to `docs/assets/`.
 - **Inno Setup Script Configuration**: Created `installer/aegis_setup.iss` to package unified setup executables.
 - **Dependency Resolution Fix**: Resolved duplicate parent path concatenations in main.py boot config and unified the DI ServiceContainer profile key mapping to `"profile_mgr"`.
