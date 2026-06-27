@@ -1,0 +1,10 @@
+# Aegis Toolkit - Python Dependencies
+# Target Python version: 3.12+
+
+customtkinter>=5.2.2
+psutil>=5.9.8
+pywin32>=306
+wmi>=1.5.1
+pillow>=10.2.0
+matplotlib>=3.8.3
+pyinstaller>=6.4.0

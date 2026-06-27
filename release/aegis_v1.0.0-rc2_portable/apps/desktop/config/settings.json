@@ -1,0 +1,7 @@
+{
+  "app_name": "Aegis Toolkit",
+  "version": "0.1.0",
+  "log_level": "INFO",
+  "telemetry_interval_ms": 1000,
+  "admin_required": true
+}

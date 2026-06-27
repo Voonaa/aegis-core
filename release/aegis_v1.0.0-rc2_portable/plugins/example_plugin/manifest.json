@@ -1,0 +1,8 @@
+{
+  "name": "Diagnostic Optimizer Extension",
+  "version": "1.0.0",
+  "author": "Aegis Core Dev",
+  "description": "Example dynamic plugin validating extensibility engines.",
+  "permissions": ["filesystem"],
+  "entry_point": "main.py"
+}
