@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Gold-Sprint-4] - 2026-06-27
+
+### Added
+- **Modular Optimization Engine**: Re-architected system optimization logic into a highly decoupled package (`packages/core/services/optimization/`) containing `planner.py` (OptimizationPlanner), `executor.py` (OptimizationExecutor), `validator.py` (OptimizationValidator), and `rollback.py` (RollbackEngine), unified behind a single `OptimizationService` facade wrapper.
+- **Safe Profiles**: Replaced custom registry modifications with documented system operations (active power plan switching, DNS resolver flush, temp cleanup). Re-defined modes to professional tiers: `PERFORMANCE` (with `GAMING` & `RENDERING` presets), `BALANCED`, and `POWER_SAVER`.
+- **System Restores & Backups**: Configured safe rollback verification that checks for Windows restore point capability, triggers async Checkpoint-Computer commands, and generates local JSON backups detailing structured changes lists with system metadata.
+- **Diagnostics Reporting**: Consolidated all diagnostics reports (Health, Optimization validation, Repair jobs) under the unified directory `reports/diagnostics/`.
+- **Benchmark Graphing & Cold Booting**: Expanded the benchmark utility (`benchmark.py`) to measure Cold Start vs. Warm Start latencies and render 5 distinct performance history trend charts in SVG format.
+
 ## [Gold-Sprint-3] - 2026-06-27
 
 ### Added

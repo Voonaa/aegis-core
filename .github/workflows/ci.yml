@@ -39,7 +39,7 @@ jobs:
     - name: Run Test Suite (Pytest + Coverage)
       run: |
         $env:PYTHONPATH = "."
-        python -m pytest tests/ -v --tb=short --cov=packages --cov-report=term --cov-report=xml --cov-report=html
+        python -m pytest tests/ -v --tb=short --cov=packages --cov-report=term --cov-report=xml:reports/coverage/coverage.xml --cov-report=html:reports/coverage/htmlcov
       shell: pwsh
 
     - name: Run Performance Benchmark
@@ -51,10 +51,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: aegis-quality-reports
-        path: |
-          coverage.xml
-          htmlcov/
-          reports/benchmark.json
-          reports/benchmark.md
+        path: reports/
         if-no-files-found: error
 

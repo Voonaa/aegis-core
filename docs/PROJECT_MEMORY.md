@@ -6,7 +6,7 @@ This file is the single source of truth for the current state of development. **
 
 ## 1. Project Overview
 * **Project Name**: Aegis Core Platform
-* **Current Version**: Gold-Sprint-3 (Quality Gate & Hardening Completed)
+* **Current Version**: Gold-Sprint-4 (Modular Optimization Complete)
 * **Vision**: An enterprise-grade modular Windows diagnostics and performance optimization engine. It splits into:
   - **Aegis Core (Engine)**: Subsystems containing HAL components, background Job threads, and WMI queries.
   - **Aegis Desktop (GUI)**: CustomTkinter layout dashboard.
@@ -29,7 +29,8 @@ This file is the single source of truth for the current state of development. **
   - Gold Sprint 1 (Real Hardware Integration)
   - Gold Sprint 2 (Beautiful Dashboard Layout & Live Charts)
   - Gold Sprint 3 (Quality & Testing Hardening)
-* **Current Active Focus**: Gold Sprint 4 (One Click Optimization).
+  - Gold Sprint 4 (Modular Optimization & Safe Profiles)
+* **Current Active Focus**: Gold Sprint 5 (Enterprise Monitoring).
 
 ### File Registry Status
 * `requirements.txt`: **[COMPLETED]** - Dependencies for Aegis.
@@ -45,6 +46,7 @@ This file is the single source of truth for the current state of development. **
 * `plugins/example_plugin/`: **[COMPLETED]** - Extensibility runtime demo example (`manifest.json`, `main.py`).
 * `scripts/`: **[COMPLETED]** - Static checks (`lint.ps1`), release pipeline (`release.ps1`), and benchmarks (`benchmark.py`).
 * `tests/`: **[COMPLETED]** - Unit test suites.
+* `reports/`: **[COMPLETED]** - Unified folder containing benchmark SVG/JSONs, htmlcov reports, and diagnostics.
 * `release/`: **[COMPLETED]** - Portable release outputs and checksum maps.
 
 ---
@@ -109,15 +111,21 @@ Aegis/ (c:\tools Advan)
 │   │   │   └── intelligence.py
 │   │   ├── plugins/
 │   │   │   └── loader.py
-│   │   └── services/
-│   │       ├── hardware_service.py
-│   │       ├── health_service.py
-│   │       ├── maintenance_service.py
-│   │       ├── privilege_service.py
-│   │       ├── recommendation.py
-│   │       ├── repair_service.py
-│   │       ├── report_service.py
-│   │       └── windows_intelligence.py
+│   │   ├── services/
+│   │   │   ├── hardware_service.py
+│   │   │   ├── health_service.py
+│   │   │   ├── maintenance_service.py
+│   │   │   ├── privilege_service.py
+│   │   │   ├── recommendation.py
+│   │   │   ├── repair_service.py
+│   │   │   ├── report_service.py
+│   │   │   ├── windows_intelligence.py
+│   │   │   └── optimization/
+│   │   │       ├── __init__.py
+│   │   │       ├── planner.py
+│   │   │       ├── executor.py
+│   │   │       ├── validator.py
+│   │   │       └── rollback.py
 │   └── sdk/
 │       ├── __init__.py
 │       ├── hardware.py
@@ -165,4 +173,4 @@ Aegis/ (c:\tools Advan)
 ---
 
 ## 5. Next Steps
-* Proceed to Gold Sprint 4 (One Click Optimization: gaming, development, and battery saving modes).
+* Proceed to Gold Sprint 5 (Enterprise Monitoring: live charts, history data logging, CSV/JSON exporting).

@@ -124,6 +124,52 @@ def register_default_cli_commands(registry: CommandRegistry, container: ServiceC
         return rep_svc.generate_report()
     registry.register("report", cmd_report, "Compiles and writes system diagnostics files to temp/")
 
+    # 5. 'optimize' command
+    def cmd_optimize(*args: str) -> str:
+        if not args:
+            return "Usage: optimize <performance [gaming|rendering] | balanced | saver | restore | status>"
+        sub = args[0].lower()
+        opt_svc = container.get("optimization_service")
+        
+        from packages.core.services.optimization.planner import OptimizationMode, OptimizationPreset
+        
+        if sub == "performance":
+            preset = None
+            if len(args) > 1:
+                p_arg = args[1].lower()
+                if p_arg == "gaming":
+                    preset = OptimizationPreset.GAMING
+                elif p_arg == "rendering":
+                    preset = OptimizationPreset.RENDERING
+            
+            res = opt_svc.apply_optimization(OptimizationMode.PERFORMANCE, preset)
+            preset_str = f" with preset {preset.value}" if preset else ""
+            return f"Performance optimization{preset_str} applied. Status: {res['status']}. Active Power Plan: {res['power_plan']}."
+            
+        elif sub == "balanced":
+            res = opt_svc.apply_optimization(OptimizationMode.BALANCED)
+            return f"Balanced optimization applied. Status: {res['status']}. Active Power Plan: {res['power_plan']}."
+            
+        elif sub == "saver":
+            res = opt_svc.apply_optimization(OptimizationMode.POWER_SAVER)
+            return f"Power Saver optimization applied. Status: {res['status']}. Active Power Plan: {res['power_plan']}."
+            
+        elif sub == "restore":
+            res = opt_svc.rollback()
+            return f"Rollback operation executed. Status: {res['status']}. Details: {res.get('restored_file', res.get('reason'))}."
+            
+        elif sub == "status":
+            state = opt_svc.capture_current_state()
+            return (
+                f"Current Optimization State:\n"
+                f"  - Power Plan Scheme GUID: {state.get('power_plan')}\n"
+                f"  - CPU Utilization:        {state.get('cpu_utilization')}%\n"
+                f"  - Free Memory:            {state.get('free_ram_gb')} GB"
+            )
+            
+        return f"Unknown optimize parameter directive: '{sub}'"
+    registry.register("optimize", cmd_optimize, "Executes system optimization profiles: optimize performance [gaming|rendering], optimize balanced, optimize saver, optimize restore, optimize status")
+
 def main() -> None:
     """Main execution bootstrap function."""
     # Resolve root directories
@@ -196,6 +242,11 @@ def main() -> None:
     from packages.core.services.windows_intelligence import WindowsIntelligenceService
     intelligence_service = WindowsIntelligenceService()
     container.register("intelligence_service", intelligence_service)
+
+    # 16. Initialize & Register OptimizationService
+    from packages.core.services.optimization_service import OptimizationService
+    optimization_service = OptimizationService(container=container)
+    container.register("optimization_service", optimization_service)
 
     # Pre-register default console scripts
     register_default_cli_commands(cmd_registry, container)
