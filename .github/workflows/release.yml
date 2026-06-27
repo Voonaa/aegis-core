@@ -26,7 +26,13 @@ jobs:
       shell: pwsh
       run: |
         choco install innosetup -y
-        "C:\Program Files (x86)\Inno Setup 6" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        $isccDir = Get-ChildItem -Path "C:\Program Files*" -Filter "ISCC.exe" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty DirectoryName
+        if ($isccDir) {
+            Write-Host "Found ISCC.exe at: $isccDir"
+            $isccDir | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        } else {
+            throw "ISCC.exe not found on runner disk"
+        }
 
     - name: Verify ISCC
       shell: pwsh
