@@ -65,21 +65,27 @@ class NetworkComponent:
                     dns = list(dns_search)
 
             # Measure ping latency to gateway
+            # timeout=2s ensures this never blocks the telemetry polling loop,
+            # even if the gateway is unreachable or behind a firewall.
             if gateway:
                 try:
-                    # Single ping command with a 500ms timeout
                     out = subprocess.run(
                         ["ping", "-n", "1", "-w", "500", gateway],
                         capture_output=True,
                         text=True,
+                        timeout=2,
                         creationflags=0x08000000  # CREATE_NO_WINDOW
                     )
                     if out.returncode == 0:
                         match = re.search(r"time[=<](\d+)ms", out.stdout)
                         if match:
                             latency = float(match.group(1))
-                except Exception:
-                    pass
+                            logger.debug(f"Gateway ping latency: {latency} ms to {gateway}")
+                except subprocess.TimeoutExpired:
+                    logger.debug(f"Gateway ping timed out after 2s. Latency marked as unavailable.")
+                    latency = -1.0
+                except Exception as ex:
+                    logger.debug(f"Gateway ping failed: {ex}")
 
         except Exception as ex:
             logger.warning(f"Failed to query WMI active network configs: {ex}. Using fallback defaults.")

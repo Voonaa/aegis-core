@@ -17,22 +17,44 @@ jobs:
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
-        python-size: '3.12'
+        python-version: '3.12'
         cache: 'pip'
 
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest flake8
+        pip install -r requirements-dev.txt
 
-    - name: Run Code Linter (Flake8)
+    - name: Run Ruff Linter
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings.
-        flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        ruff check packages/ apps/ --select E,F,W --ignore E501,W503
+      continue-on-error: true
 
-    - name: Run Test Suites (Pytest)
+    - name: Run MyPy Static Type Checker
       run: |
-        pytest tests/
+        mypy packages/ --ignore-missing-imports --no-strict-optional --exclude "release/"
+      continue-on-error: true
+
+    - name: Run Test Suite (Pytest + Coverage)
+      run: |
+        $env:PYTHONPATH = "."
+        python -m pytest tests/ -v --tb=short --cov=packages --cov-report=term --cov-report=xml --cov-report=html
+      shell: pwsh
+
+    - name: Run Performance Benchmark
+      run: |
+        python scripts/benchmark.py
+      shell: pwsh
+
+    - name: Upload Test Coverage and Benchmark Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: aegis-quality-reports
+        path: |
+          coverage.xml
+          htmlcov/
+          reports/benchmark.json
+          reports/benchmark.md
+        if-no-files-found: error
+

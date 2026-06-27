@@ -6,7 +6,7 @@ This file is the single source of truth for the current state of development. **
 
 ## 1. Project Overview
 * **Project Name**: Aegis Core Platform
-* **Current Version**: v1.0.0-rc2 (Release Candidate 3 - Release Engineering Complete)
+* **Current Version**: Gold-Sprint-3 (Quality Gate & Hardening Completed)
 * **Vision**: An enterprise-grade modular Windows diagnostics and performance optimization engine. It splits into:
   - **Aegis Core (Engine)**: Subsystems containing HAL components, background Job threads, and WMI queries.
   - **Aegis Desktop (GUI)**: CustomTkinter layout dashboard.
@@ -27,20 +27,23 @@ This file is the single source of truth for the current state of development. **
   - RC2 (UX & Design Tokens Layout Calibration)
   - RC3 (Distribution & Release Engineering Automation)
   - Gold Sprint 1 (Real Hardware Integration)
-* **Current Active Focus**: Gold Sprint 2 (Beautiful Dashboard Layout & Live Charts).
+  - Gold Sprint 2 (Beautiful Dashboard Layout & Live Charts)
+  - Gold Sprint 3 (Quality & Testing Hardening)
+* **Current Active Focus**: Gold Sprint 4 (One Click Optimization).
 
 ### File Registry Status
 * `requirements.txt`: **[COMPLETED]** - Dependencies for Aegis.
+* `requirements-dev.txt`: **[COMPLETED]** - Developer dependencies.
 * `pyproject.toml`: **[COMPLETED]** - Static checks configurations for ruff and mypy.
 * `.gitignore`: **[COMPLETED]** - Exclusions.
 * `CHANGELOG.md`: **[COMPLETED]** - Release tracking logs.
 * `.github/workflows/ci.yml`: **[COMPLETED]** - Pipeline validation script.
-* `docs/SRS.md` to `docs/VERSIONING_POLICY.md`: **[COMPLETED]** - Engineering foundation sheets.
+* `docs/SRS.md` to `docs/DEVELOPMENT_SETUP.md`: **[COMPLETED]** - Engineering and setup sheets.
 * `apps/desktop/`: **[COMPLETED]** - Desktop UI wrapper (`main.py`, `app.py`, `ui/`, `config/`).
 * `packages/core/`: **[COMPLETED]** - Core platform operational logic.
 * `packages/sdk/`: **[COMPLETED]** - SDK wrapper entry points.
 * `plugins/example_plugin/`: **[COMPLETED]** - Extensibility runtime demo example (`manifest.json`, `main.py`).
-* `scripts/`: **[COMPLETED]** - Static checks (`lint.ps1`) and automated release pipeline (`release.ps1`).
+* `scripts/`: **[COMPLETED]** - Static checks (`lint.ps1`), release pipeline (`release.ps1`), and benchmarks (`benchmark.py`).
 * `tests/`: **[COMPLETED]** - Unit test suites.
 * `release/`: **[COMPLETED]** - Portable release outputs and checksum maps.
 
@@ -59,7 +62,8 @@ Aegis/ (c:\tools Advan)
 ├── pyproject.toml
 ├── scripts/
 │   ├── lint.ps1
-│   └── release.ps1
+│   ├── release.ps1
+│   └── benchmark.py
 ├── apps/
 │   └── desktop/
 │       ├── app.py
@@ -101,7 +105,8 @@ Aegis/ (c:\tools Advan)
 │   │   ├── interfaces/
 │   │   │   └── base.py
 │   │   ├── models/
-│   │   │   └── telemetry.py
+│   │   │   ├── telemetry.py
+│   │   │   └── intelligence.py
 │   │   ├── plugins/
 │   │   │   └── loader.py
 │   │   └── services/
@@ -111,7 +116,8 @@ Aegis/ (c:\tools Advan)
 │   │       ├── privilege_service.py
 │   │       ├── recommendation.py
 │   │       ├── repair_service.py
-│   │       └── report_service.py
+│   │       ├── report_service.py
+│   │       └── windows_intelligence.py
 │   └── sdk/
 │       ├── __init__.py
 │       ├── hardware.py
@@ -136,7 +142,19 @@ Aegis/ (c:\tools Advan)
     └── test_core/
         ├── __init__.py
         ├── test_config.py
-        └── test_logger.py
+        ├── test_logger.py
+        ├── test_container.py
+        ├── test_event_bus.py
+        ├── test_health_service.py
+        ├── test_intelligence_model.py
+        ├── test_jobs.py
+        ├── test_performance.py
+        ├── test_plugin_loader.py
+        ├── test_profile_manager.py
+        ├── test_recommendation.py
+        ├── test_sdk.py
+        ├── test_telemetry_models.py
+        └── test_windows_intelligence.py
 ```
 
 ---
@@ -147,4 +165,4 @@ Aegis/ (c:\tools Advan)
 ---
 
 ## 5. Next Steps
-* Initiate 2-week dogfood stability test runs prior to drafting v1.0.0-gold release tags.
+* Proceed to Gold Sprint 4 (One Click Optimization: gaming, development, and battery saving modes).

@@ -51,14 +51,22 @@ class GPUComponent:
                 if bytes_ram:
                     vram = int(bytes_ram // (1024 ** 2))
 
-            # 2. Fetch GPU engine utilization
+            # 2. Fetch GPU engine utilization via WMI Performance counters
+            # Win32_PerfFormattedData_GPUPerformance_GPUEngine is only available
+            # on Windows 10/11 with WDDM 2.x+ drivers. Falls back to 0.0 if unavailable.
             try:
                 perf_engines = w.Win32_PerfFormattedData_GPUPerformance_GPUEngine()
                 if perf_engines:
-                    util = float(sum(int(getattr(x, "UtilizationPercentage", 0)) for x in perf_engines))
-                    util = min(100.0, util)
-            except Exception:
-                pass
+                    raw_util = sum(int(getattr(x, "UtilizationPercentage", 0)) for x in perf_engines)
+                    util = min(100.0, float(raw_util))
+                    self._capabilities["utilization_polling"] = True
+                else:
+                    # WMI class present but no engine data returned
+                    self._capabilities["utilization_polling"] = False
+                    logger.debug("GPU utilization: WMI returned empty engine list. Marked as unavailable.")
+            except Exception as ex:
+                self._capabilities["utilization_polling"] = False
+                logger.debug(f"GPU utilization WMI query unavailable: {ex}")
 
             # 3. Fetch GPU temperature (scales with utilization)
             temp = round(38.0 + (util / 100.0) * 32.0, 1)

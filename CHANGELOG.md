@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Gold-Sprint-3] - 2026-06-27
+
+### Added
+- **Test Suite Expansion**: Expanded unit test coverage from 4 tests to 80 tests, covering EventBus, DI Container, Health Engine, Recommendation rules, JobManager, PluginLoader, WindowsIntelligence, and Telemetry models.
+- **Performance Regression Gate**: Added automated execution latency validation (`test_performance.py`) asserting critical engine thresholds (Health < 10ms, Recommendation < 5ms, HAL CPU mocked < 100ms).
+- **Upgraded Benchmark Engine**: Developed robust local profiling script `scripts/benchmark.py` that records startup metrics, generates automated JSON/Markdown reports, and supports comparison audits via CLI (`benchmark.py compare`).
+- **CI/CD Quality Artifacts**: Configured GitHub Actions to produce code coverage HTML reports and upload code quality artifacts (coverage.xml, HTML results, benchmark metrics).
+- **HAL Sensor Accuracy**: Standardized CPU WMI voltage fallback representation (`0.0 (WMI Unavailable)`), calibrated battery capacity health calculations, stabilized GPU engine polling states, and introduced ping gateway socket timeouts.
+- **Developer Onboarding Guidelines**: Established `requirements-dev.txt` for developer tooling standardization and documented the complete setup pipeline in `docs/DEVELOPMENT_SETUP.md`.
+
 ## [1.0.0-rc3] - 2026-06-27
 
 ### Added

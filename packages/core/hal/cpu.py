@@ -68,23 +68,28 @@ class CPUComponent:
             except Exception:
                 pass
 
-        # Query voltage via WMI
-        voltage = 1.1 # Fallback default in Volts
+        # Query voltage via WMI Win32_Processor.CurrentVoltage
+        # CurrentVoltage encodes as tenths-of-volt OR SMBIOS capability bitmask.
+        # If it returns 0, the BIOS does not report CPU voltage via WMI.
+        voltage = 0.0  # 0.0 = WMI Unavailable (not an estimated guess)
         try:
             import wmi
             w = wmi.WMI()
             processors = w.Win32_Processor()
             if processors and processors[0].CurrentVoltage:
-                # CurrentVoltage represents tenths of a volt or special bit masks
                 volts_raw = processors[0].CurrentVoltage
                 if volts_raw > 0:
                     # If high bit is not set, raw value is voltage * 10
                     if not (volts_raw & 0x80):
                         voltage = round(volts_raw / 10.0, 2)
                     else:
+                        # SMBIOS capability bitmask — extract lower 7 bits
                         voltage = round((volts_raw & 0x7F) / 10.0, 2)
-        except Exception:
-            pass
+                    logger.debug(f"CPU WMI voltage read: {voltage} V (raw={volts_raw})")
+                else:
+                    logger.debug("CPU WMI voltage returned 0 — BIOS does not expose this value.")
+        except Exception as ex:
+            logger.debug(f"CPU voltage WMI query failed: {ex}. Voltage marked as unavailable.")
 
         # Estimate Power Draw (Ryzen 5 6600H default base TDP: 45W)
         tdp_watts = 45.0

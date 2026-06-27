@@ -58,14 +58,21 @@ class BatteryComponent:
             if batteries and len(batteries) > 0:
                 self._capabilities["wear_polling"] = True
                 b = batteries[0]
-                
-                # Check design vs actual full charge capacity
+
+                # Win32_Battery.DesignCapacity and FullChargeCapacity are in mWh.
+                # health_percent = (FullChargeCapacity / DesignCapacity) × 100
+                # Clamped to [0, 100] to guard against BIOS reporting inconsistencies.
                 design = getattr(b, "DesignCapacity", None)
                 full = getattr(b, "FullChargeCapacity", None)
                 if design and full and design > 0:
                     design_cap = int(design)
                     current_cap = int(full)
-                    health = int(min(100, (full / design) * 100.0))
+                    raw_health = (current_cap / design_cap) * 100.0
+                    health = int(max(0, min(100, round(raw_health))))
+                    logger.debug(
+                        f"Battery health: {health}% "
+                        f"(design={design_cap} mWh, full={current_cap} mWh)"
+                    )
 
             # Query cycle count via ACPI root\wmi
             try:
