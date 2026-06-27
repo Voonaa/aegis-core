@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2026-06-27
+## [1.0.0-rc4] - 2026-06-27
 
 ### Added
 - **Production Release Package**: Created the automated pipeline to compile build metadata (version, commit hash, Python version) and assemble the portable directory (`reports/release/aegis_v1.0.0_portable/`) complete with verification manifests (`checksums.sha256`) and an Authenticode code-signing certificate verification step.

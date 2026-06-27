@@ -1,8 +1,11 @@
 # 🛡 Aegis Core Platform
 
 [![CI Pipeline Status](https://github.com/Voonaa/aegis-core/actions/workflows/ci.yml/badge.svg)](https://github.com/Voonaa/aegis-core/actions)
-[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)](https://www.python.org/)
+[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen)](#)
+[![Version](https://img.shields.io/badge/version-1.0.0--rc4-orange)](#)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-lightgrey)](#)
 
 > **One Click. One Platform. Total Control.**
 > An enterprise-grade, modular Windows Diagnostics & System Management Platform engineered to analyze telemetry, run async repair jobs, and dynamically score host health.
@@ -31,6 +34,30 @@ Hardware (WMI / WinReg) -> HAL Telemetry -> Health Scoring -> Recommendation Eng
                                                                     │
 GUI Desktop Viewports <------ EventBus <------ JobManager <─────────┘
 ```
+
+---
+
+## 📸 Application User Interface Screenshots
+
+### 1. Dashboard Page
+Displays virtualization statuses, real-time WMI queries, dynamic scoring metrics, and system profiles overlay.
+![Aegis Dashboard](docs/assets/dashboard.png)
+
+### 2. Monitor Page
+Tracks active CPU cores loads, GPU capacities, RAM percentages, motherboard temperatures, and latency metrics in dynamic charts.
+![Aegis Hardware Monitor](docs/assets/monitor.png)
+
+### 3. Optimization Page
+Manages active system tuning presets (Performance, Balanced, Power Saver) and triggers safe maintenance tasks.
+![Aegis System Optimization](docs/assets/optimization.png)
+
+### 4. Diagnostics Report Page
+Compiles details checklists of hardware SMART indicators, battery health, CPU thermal zone parameters, and active diagnostic reports.
+![Aegis Diagnostics Report](docs/assets/report.png)
+
+### 5. Settings Configuration Page
+Regulates general preferences, CustomTkinter dynamic window theme scaling, and third-party extension plugin lifecycle states.
+![Aegis Settings](docs/assets/settings.png)
 
 ---
 
@@ -115,7 +142,9 @@ Aegis includes automated packaging and release compilation tools. Running the re
 ```
 
 The output folder is compiled under:
-`release/aegis_v1.0.0-rc2_portable/`
+`reports/release/aegis_v1.0.0_portable/`
+
+An Inno Setup compiler configuration file is also available under [installer/aegis_setup.iss](installer/aegis_setup.iss) to generate unified Windows Setup `.exe` installers.
 
 ---
 

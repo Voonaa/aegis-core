@@ -1,8 +1,8 @@
 ﻿{
-    "version":  "1.0.0",
+    "version":  "1.0.0-rc4",
     "architecture":  "AMD64",
     "profile":  "ADVAN WORKPLUS",
     "python_version":  "3.14.4",
-    "build_timestamp":  "2026-06-27 16:53:50",
-    "commit_hash":  "2be918d"
+    "build_timestamp":  "2026-06-27 17:07:43",
+    "commit_hash":  "1a9e5f6"
 }
