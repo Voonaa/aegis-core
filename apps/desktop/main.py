@@ -195,14 +195,41 @@ def register_default_cli_commands(registry: CommandRegistry, container: ServiceC
             avg_ping = sum(pings) / len(pings) if pings else 0.0
             avg_score = sum(scores) / len(scores) if scores else 0.0
 
-            return (
-                f"Aegis Telemetry History Stats (Last 7 Days - {len(logs)} records):\n"
-                f"  - Average CPU Utilization : {avg_cpu:.1f}%\n"
-                f"  - Average CPU Temperature : {avg_temp:.1f} C\n"
-                f"  - Max RAM Footprint Peak  : {max_ram:.1f}%\n"
-                f"  - Average Ping Latency    : {avg_ping:.1f} ms\n"
+            # Query TrendAnalysisService analytics
+            trend_svc = container.get("trend_analysis_service")
+            trends = trend_svc.analyze_trends(limit_hours=168)
+            compare = trend_svc.compare_yesterday_vs_today()
+
+            output = [
+                f"Aegis Telemetry History Stats (Last 7 Days - {len(logs)} records):",
+                f"  - Average CPU Utilization : {avg_cpu:.1f}%",
+                f"  - Average CPU Temperature : {avg_temp:.1f} C",
+                f"  - Max RAM Footprint Peak  : {max_ram:.1f}%",
+                f"  - Average Ping Latency    : {avg_ping:.1f} ms",
                 f"  - Average System Health   : {avg_score:.1f}/100"
-            )
+            ]
+
+            if trends.get("status") == "SUCCESS":
+                grads = trends.get("gradients", {})
+                output.append("\nPerformance Trend Slopes (Gradients):")
+                output.append(f"  - CPU Temp Gradient     : {grads.get('cpu_temperature'):+.3f}°C / record")
+                output.append(f"  - RAM Peak Gradient     : {grads.get('ram_percentage')*100.0:+.3f}% / record")
+                output.append(f"  - Battery Degradation   : {grads.get('battery_health'):+.4f}% / record")
+                output.append(f"  - Battery Forecast      : {trends.get('battery_forecast')}")
+                
+                if trends.get("alerts"):
+                    output.append("\nAnomaly Detection Alerts:")
+                    for alert in trends.get("alerts", []):
+                        output.append(f"  - [{alert.get('severity')}] {alert.get('metric')}: {alert.get('message')}")
+
+            if compare.get("status") == "SUCCESS":
+                cpu_c = compare.get("cpu_utilization", {})
+                score_c = compare.get("health_score", {})
+                output.append("\nYesterday vs. Today Comparison Delta:")
+                output.append(f"  - CPU Avg Load          : {cpu_c.get('yesterday')}% -> {cpu_c.get('today')}% (Delta: {cpu_c.get('delta'):+.1f}%)")
+                output.append(f"  - Health Rating Score   : {score_c.get('yesterday')} -> {score_c.get('today')} (Delta: {score_c.get('delta'):+.1f})")
+
+            return "\n".join(output)
             
         elif sub == "export":
             if len(args) < 2:
@@ -211,16 +238,11 @@ def register_default_cli_commands(registry: CommandRegistry, container: ServiceC
             logs = history_svc.get_history(limit_hours=168)
             export_svc = container.get("export_service")
             
-            if fmt == "csv":
-                out_path = export_svc.export_to_csv(logs)
-            elif fmt == "json":
-                out_path = export_svc.export_to_json(logs)
-            elif fmt == "md":
-                out_path = export_svc.export_to_markdown(logs)
-            elif fmt == "html":
-                out_path = export_svc.export_to_html(logs)
-            else:
-                return f"Unsupported export format directive: '{fmt}'"
+            try:
+                filename = f"telemetry_export.{fmt}"
+                out_path = export_svc.export_data(fmt, logs, filename)
+            except Exception as ex:
+                return f"Export Error: {ex}"
                 
             return f"Telemetry history successfully exported to: {out_path.resolve()}"
             
@@ -243,89 +265,20 @@ def main() -> None:
     # Instantiate Singleton Service Container
     container = ServiceContainer()
 
-    # 1. Initialize & Register ConfigManager
-    config_mgr = ConfigManager(config_path=config_file, default_settings=DEFAULT_SETTINGS)
-    container.register("config", config_mgr)
+    # Bootstrap all registered system services
+    from packages.core.bootstrap import bootstrap_services
+    bootstrap_services(
+        container=container,
+        profiles_dir=profiles_dir,
+        plugins_dir=plugins_dir,
+        config_file=config_file,
+        default_settings=DEFAULT_SETTINGS
+    )
 
-    # 2. Initialize & Register ThemeManager
-    theme_mgr = ThemeManager()
-    container.register("theme", theme_mgr)
-
-    # 3. Initialize & Register PrivilegeService
-    privilege_service = PrivilegeService()
-    container.register("privilege_service", privilege_service)
-
-    # 4. Initialize & Register EventBus
-    event_bus = EventBus()
-    container.register("event_bus", event_bus)
-
-    # 5. Initialize & Register JobManager
-    job_manager = JobManager(container=container)
-    container.register("job_manager", job_manager)
-
-    # 6. Initialize & Register RepairService
-    repair_service = RepairService(container=container)
-    container.register("repair_service", repair_service)
-
-    # 7. Initialize & Register MaintenanceService
-    maintenance_service = MaintenanceService(container=container)
-    container.register("maintenance_service", maintenance_service)
-
-    # 8. Initialize & Register HealthEngine
-    health_engine = HealthEngine()
-    container.register("health_engine", health_engine)
-
-    # 9. Initialize & Register ProfileManager
-    profile_manager = ProfileManager(profiles_dir=profiles_dir)
-    container.register("profile_manager", profile_manager)
-
-    # 10. Initialize & Register RecommendationService
-    recommendation_service = RecommendationService()
-    container.register("recommendation_service", recommendation_service)
-
-    # 11. Initialize & Register PluginLoader
-    plugin_loader = PluginLoader(plugins_dir=plugins_dir)
-    container.register("plugin_loader", plugin_loader)
-
-    # 12. Initialize & Register CommandRegistry
-    cmd_registry = CommandRegistry()
-    container.register("command_registry", cmd_registry)
-
-    # 13. Initialize & Register ReportService
-    report_service = ReportService(container=container)
-    container.register("report_service", report_service)
-
-    # 14. Initialize & Register HardwareService (Demo mode default)
-    demo_mode = config_mgr.get("demo_mode", True)
-    hardware_service = HardwareService(container=container, demo_mode=demo_mode)
-    container.register("hardware_service", hardware_service)
-
-    # 15. Initialize & Register WindowsIntelligenceService
-    from packages.core.services.windows_intelligence import WindowsIntelligenceService
-    intelligence_service = WindowsIntelligenceService()
-    container.register("intelligence_service", intelligence_service)
-
-    # 16. Initialize & Register OptimizationService
-    from packages.core.services.optimization import OptimizationService
-    optimization_service = OptimizationService(container=container)
-    container.register("optimization_service", optimization_service)
-
-    # 17. Initialize & Register TelemetryHistoryService
-    from packages.core.services.telemetry_history_service import TelemetryHistoryService
-    telemetry_history_service = TelemetryHistoryService(container=container)
-    container.register("telemetry_history_service", telemetry_history_service)
-
-    # 18. Initialize & Register ExportService
-    from packages.core.services.export_service import ExportService
-    export_service = ExportService()
-    container.register("export_service", export_service)
-
-    # Trigger 7-day rolling history database cleanup on startup
-    telemetry_history_service.clean_old_records(days=7)
-
-    # Subscribe to TELEMETRY_UPDATED to record state into SQLite history database
-    from packages.core.constants import events
-    event_bus.subscribe(events.TELEMETRY_UPDATED, telemetry_history_service.log_telemetry)
+    # Resolve necessary references
+    cmd_registry = container.get("command_registry")
+    hardware_service = container.get("hardware_service")
+    plugin_loader = container.get("plugin_loader")
 
     # Pre-register default console scripts
     register_default_cli_commands(cmd_registry, container)

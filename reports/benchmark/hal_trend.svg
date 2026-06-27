@@ -8,26 +8,32 @@
 <text x="42" y="99.0" fill="#6B7280" font-size="9" text-anchor="end">1249.7</text>
 <line x1="46" y1="20.0" x2="50" y2="20.0" stroke="#374151" stroke-width="1"/>
 <text x="42" y="24.0" fill="#6B7280" font-size="9" text-anchor="end">1511.2</text>
-<polyline fill="none" stroke="#8B5CF6" stroke-width="2.5" points="50.0,59.412979218446864 121.66666666666666,124.7611187668968 193.33333333333331,60.47907260968155 265.0,123.79228201173012 336.66666666666663,134.57371087141755 408.33333333333337,134.07681266000247 480.0,138.49524762189836"/>
+<polyline fill="none" stroke="#8B5CF6" stroke-width="2.5" points="50.0,59.412979218446864 103.75,124.7611187668968 157.5,60.47907260968155 211.25,123.79228201173012 265.0,134.57371087141755 318.75,134.07681266000247 372.5,138.49524762189836 426.25,133.5274130786746 480.0,138.07810558991366"/>
 <circle cx="50.0" cy="59.412979218446864" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
 <text x="50.0" y="51.412979218446864" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1373.8ms</text>
 <text x="50.0" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 50.0, 185)">2026-06-27</text>
-<circle cx="121.66666666666666" cy="124.7611187668968" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-<text x="121.66666666666666" y="116.7611187668968" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1146.0ms</text>
-<text x="121.66666666666666" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 121.66666666666666, 185)">2026-06-27</text>
-<circle cx="193.33333333333331" cy="60.47907260968155" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-<text x="193.33333333333331" y="52.47907260968155" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1370.1ms</text>
-<text x="193.33333333333331" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 193.33333333333331, 185)">2026-06-27</text>
-<circle cx="265.0" cy="123.79228201173012" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-<text x="265.0" y="115.79228201173012" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1149.4ms</text>
+<circle cx="103.75" cy="124.7611187668968" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+<text x="103.75" y="116.7611187668968" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1146.0ms</text>
+<text x="103.75" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 103.75, 185)">2026-06-27</text>
+<circle cx="157.5" cy="60.47907260968155" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+<text x="157.5" y="52.47907260968155" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1370.1ms</text>
+<text x="157.5" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 157.5, 185)">2026-06-27</text>
+<circle cx="211.25" cy="123.79228201173012" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+<text x="211.25" y="115.79228201173012" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1149.4ms</text>
+<text x="211.25" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 211.25, 185)">2026-06-27</text>
+<circle cx="265.0" cy="134.57371087141755" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+<text x="265.0" y="126.57371087141755" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1111.8ms</text>
 <text x="265.0" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 265.0, 185)">2026-06-27</text>
-<circle cx="336.66666666666663" cy="134.57371087141755" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-<text x="336.66666666666663" y="126.57371087141755" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1111.8ms</text>
-<text x="336.66666666666663" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 336.66666666666663, 185)">2026-06-27</text>
-<circle cx="408.33333333333337" cy="134.07681266000247" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-<text x="408.33333333333337" y="126.07681266000247" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1113.5ms</text>
-<text x="408.33333333333337" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 408.33333333333337, 185)">2026-06-27</text>
-<circle cx="480.0" cy="138.49524762189836" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
-<text x="480.0" y="130.49524762189836" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1098.1ms</text>
+<circle cx="318.75" cy="134.07681266000247" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+<text x="318.75" y="126.07681266000247" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1113.5ms</text>
+<text x="318.75" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 318.75, 185)">2026-06-27</text>
+<circle cx="372.5" cy="138.49524762189836" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+<text x="372.5" y="130.49524762189836" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1098.1ms</text>
+<text x="372.5" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 372.5, 185)">2026-06-27</text>
+<circle cx="426.25" cy="133.5274130786746" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+<text x="426.25" y="125.52741307867461" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1115.5ms</text>
+<text x="426.25" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 426.25, 185)">2026-06-27</text>
+<circle cx="480.0" cy="138.07810558991366" r="4" fill="#111827" stroke="#8B5CF6" stroke-width="2"/>
+<text x="480.0" y="130.07810558991366" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">1099.6ms</text>
 <text x="480.0" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 480.0, 185)">2026-06-27</text>
 </svg>

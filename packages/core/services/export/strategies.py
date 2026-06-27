@@ -1,69 +1,57 @@
-"""Export Service handling telemetry history files formatting to CSV, JSON, Markdown, and print-friendly HTML."""
+"""Decoupled file format strategies for Strategy Pattern export module."""
 
 import csv
 import json
+from abc import ABC, abstractmethod
 from pathlib import Path
 from datetime import datetime
-from packages.core.logger import get_subsystem_logger
 
-logger = get_subsystem_logger("SYSTEM")
+class ExportStrategy(ABC):
+    """Abstract Strategy interface for exporting telemetry history lists."""
 
-
-class ExportService:
-    """Formats list dictionaries data to files under reports/diagnostics/."""
-
-    def __init__(self) -> None:
-        """Initialize the Export Service."""
-        self.diagnostics_dir = Path("reports/diagnostics")
-        self.diagnostics_dir.mkdir(parents=True, exist_ok=True)
-        logger.info("Export Service initialized.")
-
-    def export_to_csv(self, data: list[dict], filename: str = "telemetry_export.csv") -> Path:
-        """Exports data to CSV format.
+    @abstractmethod
+    def export(self, data: list[dict], dest: Path) -> Path:
+        """Processes and writes telemetry rows array to destination path.
         
         Args:
-            data: List of telemetry database record dicts.
-            filename: Target file name.
+            data: Telemetry history dictionary rows list.
+            dest: Target destination file path.
             
         Returns:
-            Absolute Path to the output file.
+            The output Path object.
         """
-        output_file = self.diagnostics_dir / filename
+        pass
+
+
+class CSVExportStrategy(ExportStrategy):
+    """CSV output generator implementation strategy."""
+
+    def export(self, data: list[dict], dest: Path) -> Path:
         if not data:
-            # Write header only
             headers = ["id", "timestamp", "cpu_utilization", "cpu_temperature", "ram_percentage", 
                        "disk_health_percent", "battery_health_percent", "network_latency_ms", 
                        "health_score", "active_power_plan"]
-            with open(output_file, "w", newline="", encoding="utf-8") as f:
+            with open(dest, "w", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)
                 writer.writerow(headers)
-            return output_file
+            return dest
 
         headers = list(data[0].keys())
-        with open(output_file, "w", newline="", encoding="utf-8") as f:
+        with open(dest, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=headers)
             writer.writeheader()
             for row in data:
-                # Format timestamp to ISO format for csv readability
                 row_copy = dict(row)
                 if "timestamp" in row_copy:
                     row_copy["timestamp"] = datetime.fromtimestamp(row_copy["timestamp"]).strftime("%Y-%m-%d %H:%M:%S")
                 writer.writerow(row_copy)
+        return dest
 
-        logger.info(f"Telemetry history exported successfully to CSV: {output_file}")
-        return output_file
 
-    def export_to_json(self, data: list[dict], filename: str = "telemetry_export.json") -> Path:
-        """Exports data to JSON format.
-        
-        Args:
-            data: List of telemetry database record dicts.
-            filename: Target file name.
-            
-        Returns:
-            Absolute Path to the output file.
-        """
-        output_file = self.diagnostics_dir / filename
+class JSONExportStrategy(ExportStrategy):
+    """JSON output generator implementation strategy."""
+
+    def export(self, data: list[dict], dest: Path) -> Path:
         formatted_data = []
         for row in data:
             row_copy = dict(row)
@@ -72,23 +60,15 @@ class ExportService:
                 row_copy["timestamp"] = datetime.fromtimestamp(row_copy["timestamp"]).strftime("%Y-%m-%d %H:%M:%S")
             formatted_data.append(row_copy)
 
-        with open(output_file, "w", encoding="utf-8") as f:
+        with open(dest, "w", encoding="utf-8") as f:
             json.dump(formatted_data, f, indent=2)
+        return dest
 
-        logger.info(f"Telemetry history exported successfully to JSON: {output_file}")
-        return output_file
 
-    def export_to_markdown(self, data: list[dict], filename: str = "telemetry_export.md") -> Path:
-        """Exports data to Markdown format.
-        
-        Args:
-            data: List of telemetry database record dicts.
-            filename: Target file name.
-            
-        Returns:
-            Absolute Path to the output file.
-        """
-        output_file = self.diagnostics_dir / filename
+class MarkdownExportStrategy(ExportStrategy):
+    """Markdown tabular output generator implementation strategy."""
+
+    def export(self, data: list[dict], dest: Path) -> Path:
         lines = [
             "# Aegis Telemetry History Diagnostics Report",
             "",
@@ -113,25 +93,15 @@ class ExportService:
                 f"| {row.get('active_power_plan', 'Balanced')} |"
             )
 
-        with open(output_file, "w", encoding="utf-8") as f:
+        with open(dest, "w", encoding="utf-8") as f:
             f.write("\n".join(lines))
+        return dest
 
-        logger.info(f"Telemetry history exported successfully to Markdown: {output_file}")
-        return output_file
 
-    def export_to_html(self, data: list[dict], filename: str = "telemetry_export.html") -> Path:
-        """Exports data to a print-friendly HTML document (Print-to-PDF ready).
-        
-        Args:
-            data: List of telemetry database record dicts.
-            filename: Target file name.
-            
-        Returns:
-            Absolute Path to the output file.
-        """
-        output_file = self.diagnostics_dir / filename
-        
-        # Prepare HTML rows
+class HTMLExportStrategy(ExportStrategy):
+    """Print-to-PDF ready HTML output generator implementation strategy."""
+
+    def export(self, data: list[dict], dest: Path) -> Path:
         table_rows = []
         for row in data:
             pretty_time = datetime.fromtimestamp(row.get("timestamp", 0.0)).strftime("%Y-%m-%d %H:%M:%S")
@@ -238,8 +208,6 @@ class ExportService:
 </body>
 </html>"""
 
-        with open(output_file, "w", encoding="utf-8") as f:
+        with open(dest, "w", encoding="utf-8") as f:
             f.write(html_content)
-
-        logger.info(f"Telemetry history exported successfully to print-friendly HTML: {output_file}")
-        return output_file
+        return dest

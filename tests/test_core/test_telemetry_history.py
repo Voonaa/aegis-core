@@ -1,15 +1,15 @@
-"""Unit tests for SQLite TelemetryHistoryService and ExportService."""
+"""Unit tests for SQLite TelemetryHistoryService database domain logic and exporter wrapper."""
 
 import json
 import pytest
 import sqlite3
 import time
 from pathlib import Path
-from unittest.mock import MagicMock
 from packages.core.container import ServiceContainer
 from packages.core.config_manager import ConfigManager
+from packages.core.repositories.telemetry_repository import TelemetryRepository
 from packages.core.services.telemetry_history_service import TelemetryHistoryService
-from packages.core.services.export_service import ExportService
+from packages.core.services.export import ExportService
 from packages.core.models.telemetry import TelemetryReport, CPUInfo, RAMInfo, DiskInfo, BatteryInfo, OSInfo
 
 
@@ -33,9 +33,10 @@ def container(tmp_path: Path) -> ServiceContainer:
 
 @pytest.fixture
 def history_svc(container: ServiceContainer, tmp_path: Path) -> TelemetryHistoryService:
-    """Returns a TelemetryHistoryService running on a temporary SQLite DB path."""
+    """Returns a TelemetryHistoryService running on a temporary SQLite repository."""
     db_file = tmp_path / "telemetry_test.db"
-    return TelemetryHistoryService(container=container, db_path=db_file)
+    repo = TelemetryRepository(db_path=db_file)
+    return TelemetryHistoryService(container=container, repository=repo)
 
 
 @pytest.fixture
@@ -47,10 +48,10 @@ def export_svc(tmp_path: Path) -> ExportService:
 
 
 def test_db_initialization_and_schema(history_svc: TelemetryHistoryService) -> None:
-    """SQLite database schema tables and columns must initialize correctly."""
-    assert history_svc.db_path.exists()
+    """SQLite database schema tables and columns must initialize correctly through repository."""
+    assert history_svc.repository.db_path.exists()
     
-    conn = sqlite3.connect(str(history_svc.db_path))
+    conn = sqlite3.connect(str(history_svc.repository.db_path))
     try:
         cursor = conn.cursor()
         cursor.execute("PRAGMA table_info(telemetry_logs)")
@@ -91,9 +92,9 @@ def test_log_telemetry_insertion(history_svc: TelemetryHistoryService) -> None:
 
 
 def test_rolling_cleanup_rules(history_svc: TelemetryHistoryService) -> None:
-    """clean_old_records must remove logs older than target days threshold."""
+    """clean_old_records must remove logs older than N days threshold."""
     # Seed db directly with one new and one very old record
-    conn = sqlite3.connect(str(history_svc.db_path))
+    conn = sqlite3.connect(str(history_svc.repository.db_path))
     try:
         cursor = conn.cursor()
         # insert old record (10 days ago)
@@ -120,7 +121,7 @@ def test_rolling_cleanup_rules(history_svc: TelemetryHistoryService) -> None:
 
 
 def test_export_formats_creation(export_svc: ExportService) -> None:
-    """ExportService must format data dicts and write clean output CSV, JSON, MD, HTML files."""
+    """ExportService Context must resolve strategies and write clean output CSV, JSON, MD, HTML files."""
     data = [
         {
             "id": 1,
@@ -136,10 +137,10 @@ def test_export_formats_creation(export_svc: ExportService) -> None:
         }
     ]
 
-    csv_path = export_svc.export_to_csv(data)
-    json_path = export_svc.export_to_json(data)
-    md_path = export_svc.export_to_markdown(data)
-    html_path = export_svc.export_to_html(data)
+    csv_path = export_svc.export_data("csv", data, "telemetry_export.csv")
+    json_path = export_svc.export_data("json", data, "telemetry_export.json")
+    md_path = export_svc.export_data("md", data, "telemetry_export.md")
+    html_path = export_svc.export_data("html", data, "telemetry_export.html")
 
     assert csv_path.exists()
     assert json_path.exists()

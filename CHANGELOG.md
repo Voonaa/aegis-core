@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Gold-Sprint-6] - 2026-06-27
+
+### Added
+- **Bootstrap Service Registry**: Refactored inisialisasi service di `main.py` ke modular `bootstrap.py` (`bootstrap_services()`), membersihkan launcher shell hingga kurang dari 30 baris kode.
+- **SQLite TelemetryRepository Layer**: Memisahkan domain akses database dari history service ke dalam `TelemetryRepository` murni di `packages/core/repositories/telemetry_repository.py`.
+- **Strategy Pattern Exporters**: Merombak total export engine ke Strategy Pattern (`ExportStrategy`, `CSVExportStrategy`, `JSONExportStrategy`, `MarkdownExportStrategy`, `HTMLExportStrategy`) di dalam package dedicated `packages/core/services/export/`.
+- **Trend Analysis Engine**: Meluncurkan `TrendAnalysisService` untuk menghitung gradien tren parameter hardware (suhu CPU/SSD, RAM) secara linier, memproyeksikan sisa masa pakai baterai (Degradation Forecast), dan membandingkan beban periodik (Yesterday vs. Today).
+- **CLI Commands Expansion**: Memperbarui CLI command `telemetry stats` agar mencetak trend, anomaly warnings, dan perbandingan delta harian secara komprehensif.
+
 ## [Gold-Sprint-5] - 2026-06-27
 
 ### Added
