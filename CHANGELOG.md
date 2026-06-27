@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Gold-Sprint-5] - 2026-06-27
+
+### Added
+- **SQLite Telemetry Logging**: Developed a localized relational logging database service (`TelemetryHistoryService`) under `packages/core/services/` targeting telemetry log entries, featuring active power plan GUID tracking, SQLite indexes, and query metrics.
+- **7-Day Rolling History**: Implemented automatic database vacuuming to delete log rows older than 7 days, maintaining a lightweight file size limit footprint.
+- **Multi-Format Export Engine**: Created `ExportService` supporting batch formatting of database history arrays to CSV, JSON logs, Markdown diagnostics tables, and print-friendly HTML templates.
+- **CLI telemetry commands**: Added console directives (`telemetry stats` and `telemetry export <csv|json|md|html>`) that render 7-day stats averages (CPU, temp, RAM peak, latency) and export logs directly to the `reports/diagnostics/` folder.
+
 ## [Gold-Sprint-4] - 2026-06-27
 
 ### Added

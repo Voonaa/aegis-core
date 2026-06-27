@@ -170,6 +170,68 @@ def register_default_cli_commands(registry: CommandRegistry, container: ServiceC
         return f"Unknown optimize parameter directive: '{sub}'"
     registry.register("optimize", cmd_optimize, "Executes system optimization profiles: optimize performance [gaming|rendering], optimize balanced, optimize saver, optimize restore, optimize status")
 
+    # 6. 'telemetry' command
+    def cmd_telemetry(*args: str) -> str:
+        if not args:
+            return "Usage: telemetry <stats | export <csv|json|md|html> | clean>"
+        
+        sub = args[0].lower()
+        history_svc = container.get("telemetry_history_service")
+        
+        if sub == "stats":
+            logs = history_svc.get_history(limit_hours=168)
+            if not logs:
+                return "Telemetry History database is empty. No stats available."
+                
+            cpu_utils = [l["cpu_utilization"] for l in logs]
+            cpu_temps = [l["cpu_temperature"] for l in logs]
+            ram_pcts = [l["ram_percentage"] for l in logs]
+            pings = [l["network_latency_ms"] for l in logs if l["network_latency_ms"] > 0]
+            scores = [l["health_score"] for l in logs]
+            
+            avg_cpu = sum(cpu_utils) / len(cpu_utils)
+            avg_temp = sum(cpu_temps) / len(cpu_temps)
+            max_ram = max(ram_pcts) * 100.0 if ram_pcts else 0.0
+            avg_ping = sum(pings) / len(pings) if pings else 0.0
+            avg_score = sum(scores) / len(scores) if scores else 0.0
+
+            return (
+                f"Aegis Telemetry History Stats (Last 7 Days - {len(logs)} records):\n"
+                f"  - Average CPU Utilization : {avg_cpu:.1f}%\n"
+                f"  - Average CPU Temperature : {avg_temp:.1f} C\n"
+                f"  - Max RAM Footprint Peak  : {max_ram:.1f}%\n"
+                f"  - Average Ping Latency    : {avg_ping:.1f} ms\n"
+                f"  - Average System Health   : {avg_score:.1f}/100"
+            )
+            
+        elif sub == "export":
+            if len(args) < 2:
+                return "Usage: telemetry export <csv | json | md | html>"
+            fmt = args[1].lower()
+            logs = history_svc.get_history(limit_hours=168)
+            export_svc = container.get("export_service")
+            
+            if fmt == "csv":
+                out_path = export_svc.export_to_csv(logs)
+            elif fmt == "json":
+                out_path = export_svc.export_to_json(logs)
+            elif fmt == "md":
+                out_path = export_svc.export_to_markdown(logs)
+            elif fmt == "html":
+                out_path = export_svc.export_to_html(logs)
+            else:
+                return f"Unsupported export format directive: '{fmt}'"
+                
+            return f"Telemetry history successfully exported to: {out_path.resolve()}"
+            
+        elif sub == "clean":
+            deleted = history_svc.clean_old_records(days=0)  # clean all
+            return f"Telemetry history clean up executed. Removed {deleted} logs."
+            
+        return f"Unknown telemetry command directive: '{sub}'"
+        
+    registry.register("telemetry", cmd_telemetry, "Queries and exports telemetry logs database: telemetry stats, telemetry export <csv|json|md|html>, telemetry clean")
+
 def main() -> None:
     """Main execution bootstrap function."""
     # Resolve root directories
@@ -244,9 +306,26 @@ def main() -> None:
     container.register("intelligence_service", intelligence_service)
 
     # 16. Initialize & Register OptimizationService
-    from packages.core.services.optimization_service import OptimizationService
+    from packages.core.services.optimization import OptimizationService
     optimization_service = OptimizationService(container=container)
     container.register("optimization_service", optimization_service)
+
+    # 17. Initialize & Register TelemetryHistoryService
+    from packages.core.services.telemetry_history_service import TelemetryHistoryService
+    telemetry_history_service = TelemetryHistoryService(container=container)
+    container.register("telemetry_history_service", telemetry_history_service)
+
+    # 18. Initialize & Register ExportService
+    from packages.core.services.export_service import ExportService
+    export_service = ExportService()
+    container.register("export_service", export_service)
+
+    # Trigger 7-day rolling history database cleanup on startup
+    telemetry_history_service.clean_old_records(days=7)
+
+    # Subscribe to TELEMETRY_UPDATED to record state into SQLite history database
+    from packages.core.constants import events
+    event_bus.subscribe(events.TELEMETRY_UPDATED, telemetry_history_service.log_telemetry)
 
     # Pre-register default console scripts
     register_default_cli_commands(cmd_registry, container)

@@ -1,0 +1,20 @@
+{
+  "timestamp": 1782553048.1852884,
+  "power_plan_match": true,
+  "pre_state": {
+    "power_plan": "Balanced",
+    "cpu_utilization": 10.0,
+    "free_ram_gb": 8.0,
+    "timestamp": 1782553048.1189573
+  },
+  "post_state": {
+    "power_plan": "Balanced",
+    "cpu_utilization": 10.0,
+    "free_ram_gb": 8.0,
+    "timestamp": 1782553048.18528
+  },
+  "delta": {
+    "free_ram_delta_gb": 0.0,
+    "cpu_utilization_delta": 0.0
+  }
+}

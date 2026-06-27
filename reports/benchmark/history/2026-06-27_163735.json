@@ -1,0 +1,14 @@
+{
+  "cold_start_ms": 1155.77,
+  "startup_ms": 1103.653,
+  "container_bootstrap_ms": 1.378,
+  "hal_initialization_ms": 1113.538,
+  "plugin_loading_ms": 15.856,
+  "command_registration_us": 1.66,
+  "eventbus_publish_us": 1.235,
+  "health_engine_us": 1.944,
+  "recommendation_engine_us": 1.208,
+  "telemetry_mapping_us": 8.753,
+  "memory_mb": 34.36,
+  "cpu_idle_percent": 0.0
+}

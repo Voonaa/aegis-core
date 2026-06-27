@@ -8,19 +8,25 @@
 <text x="42" y="99.0" fill="#6B7280" font-size="9" text-anchor="end">17.1</text>
 <line x1="46" y1="20.0" x2="50" y2="20.0" stroke="#374151" stroke-width="1"/>
 <text x="42" y="24.0" fill="#6B7280" font-size="9" text-anchor="end">34.1</text>
-<polyline fill="none" stroke="#F59E0B" stroke-width="2.5" points="50.0,33.636363636363654 157.5,170.0 265.0,170.0 372.5,170.0 480.0,170.0"/>
+<polyline fill="none" stroke="#F59E0B" stroke-width="2.5" points="50.0,33.636363636363654 121.66666666666666,170.0 193.33333333333331,170.0 265.0,170.0 336.66666666666663,170.0 408.33333333333337,170.0 480.0,170.0"/>
 <circle cx="50.0" cy="33.636363636363654" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
 <text x="50.0" y="25.636363636363654" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">31.0%</text>
 <text x="50.0" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 50.0, 185)">2026-06-27</text>
-<circle cx="157.5" cy="170.0" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-<text x="157.5" y="162.0" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">0.0%</text>
-<text x="157.5" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 157.5, 185)">2026-06-27</text>
+<circle cx="121.66666666666666" cy="170.0" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+<text x="121.66666666666666" y="162.0" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">0.0%</text>
+<text x="121.66666666666666" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 121.66666666666666, 185)">2026-06-27</text>
+<circle cx="193.33333333333331" cy="170.0" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+<text x="193.33333333333331" y="162.0" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">0.0%</text>
+<text x="193.33333333333331" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 193.33333333333331, 185)">2026-06-27</text>
 <circle cx="265.0" cy="170.0" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
 <text x="265.0" y="162.0" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">0.0%</text>
 <text x="265.0" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 265.0, 185)">2026-06-27</text>
-<circle cx="372.5" cy="170.0" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
-<text x="372.5" y="162.0" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">0.0%</text>
-<text x="372.5" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 372.5, 185)">2026-06-27</text>
+<circle cx="336.66666666666663" cy="170.0" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+<text x="336.66666666666663" y="162.0" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">0.0%</text>
+<text x="336.66666666666663" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 336.66666666666663, 185)">2026-06-27</text>
+<circle cx="408.33333333333337" cy="170.0" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
+<text x="408.33333333333337" y="162.0" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">0.0%</text>
+<text x="408.33333333333337" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 408.33333333333337, 185)">2026-06-27</text>
 <circle cx="480.0" cy="170.0" r="4" fill="#111827" stroke="#F59E0B" stroke-width="2"/>
 <text x="480.0" y="162.0" fill="#F9FAFB" font-size="8" font-weight="bold" text-anchor="middle">0.0%</text>
 <text x="480.0" y="185" fill="#6B7280" font-size="8" text-anchor="middle" transform="rotate(-15, 480.0, 185)">2026-06-27</text>
