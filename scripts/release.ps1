@@ -39,7 +39,7 @@ New-Item -ItemType Directory -Path $PortableDir -Force | Out-Null
 
 # 4. Generate build metadata
 Write-Host "`n[Step 4] Compiling Build Metadata..." -ForegroundColor Yellow
-$Version = "1.0.0-rc4"
+$Version = (Get-Content -Path "version.txt" -TotalCount 1).Trim()
 $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 $Commit = "UNKNOWN"
 try {
@@ -132,6 +132,31 @@ Get-ChildItem -Path $PortableDir -Recurse -File | ForEach-Object {
 
 $HashLines | Out-File -FilePath $ChecksumFile -Encoding ascii -NoNewline
 Write-Host "SHA-256 check hashes generated successfully inside release manifest." -ForegroundColor Green
+
+# 8. Check and execute Inno Setup Compiler if available
+Write-Host "`n[Step 8] Checking Inno Setup Compiler (ISCC.exe) for Windows Installer..." -ForegroundColor Yellow
+$ISCC = Get-Command "iscc.exe" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
+if ($null -eq $ISCC) {
+    # Check default install path
+    $DefaultISCC = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+    if (Test-Path $DefaultISCC) {
+        $ISCC = $DefaultISCC
+    }
+}
+
+if ($null -ne $ISCC -and (Test-Path $ISCC)) {
+    Write-Host "  Found Inno Setup Compiler: $ISCC" -ForegroundColor Gray
+    Write-Host "  Compiling installer package..." -ForegroundColor Gray
+    try {
+        & $ISCC /DMyAppVersion=$Version /DOutputBaseFilename="Aegis_Setup_v$Version" "installer/aegis_setup.iss" | Out-Host
+        Write-Host "  Installer executable generated successfully inside: reports/release/" -ForegroundColor Green
+    } catch {
+        Write-Host "  Warning: Installer compilation failed: $_" -ForegroundColor Red
+    }
+} else {
+    Write-Host "  Warning: ISCC.exe not found in PATH or Program Files. Skipping installer compile." -ForegroundColor Yellow
+    Write-Host "  To compile Aegis_Setup_v$Version.exe, please install Inno Setup 6 (https://jrsoftware.org/isdl.php) and add it to your environment PATH." -ForegroundColor Gray
+}
 
 Write-Host "`n==================================================" -ForegroundColor Green
 Write-Host "  Aegis portable release v$Version successfully built!" -ForegroundColor Green

@@ -1,10 +1,9 @@
 # 🛡 Aegis Core Platform
 
-[![CI Pipeline Status](https://github.com/Voonaa/aegis-core/actions/workflows/ci.yml/badge.svg)](https://github.com/Voonaa/aegis-core/actions)
+[![CI Pipeline Status](https://img.shields.io/github/actions/workflow/status/Voonaa/aegis-core/ci.yml?branch=develop)](https://github.com/Voonaa/aegis-core/actions)
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-blue)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen)](#)
-[![Version](https://img.shields.io/badge/version-1.0.0--rc4-orange)](#)
+[![License: MIT](https://img.shields.io/github/license/Voonaa/aegis-core?color=blue)](https://github.com/Voonaa/aegis-core/blob/develop/LICENSE)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Voonaa/aegis-core?color=orange)](https://github.com/Voonaa/aegis-core/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-lightgrey)](#)
 
 > **One Click. One Platform. Total Control.**

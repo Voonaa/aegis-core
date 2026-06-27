@@ -1,9 +1,16 @@
 ; Inno Setup Script for Aegis Core Platform Installation Package
 ; Compile this script using Inno Setup Compiler (ISCC.exe)
 
+#ifndef MyAppVersion
+  #define MyAppVersion "1.0.0-rc4"
+#endif
+#ifndef OutputBaseFilename
+  #define OutputBaseFilename "Aegis_Setup_v1.0.0-rc4"
+#endif
+
 [Setup]
 AppName=Aegis Core Platform
-AppVersion=1.0.0-rc4
+AppVersion={#MyAppVersion}
 AppPublisher=Aegis Platform Open Source
 DefaultDirName={autopf}\AegisCore
 DefaultGroupName=Aegis Core Platform
@@ -11,7 +18,7 @@ UninstallDisplayIcon={app}\Aegis.bat
 Compression=lzma2
 SolidCompression=yes
 OutputDir=..\reports\release
-OutputBaseFilename=Aegis_Setup_v1.0.0-rc4
+OutputBaseFilename={#OutputBaseFilename}
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 

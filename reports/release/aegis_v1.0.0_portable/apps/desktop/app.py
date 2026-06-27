@@ -16,18 +16,29 @@ from packages.core.logger import get_subsystem_logger
 
 logger = get_subsystem_logger("SYSTEM")
 
+import json
+import platform
+from pathlib import Path
+
+def _read_version_ssot() -> str:
+    """Reads the Single Source of Truth version from version.txt in project root."""
+    try:
+        root_dir = Path(__file__).resolve().parent.parent.parent
+        version_file = root_dir / "version.txt"
+        if version_file.exists():
+            return version_file.read_text(encoding="utf-8").strip()
+    except Exception:
+        pass
+    return "1.0.0-rc4"
+
 # Configuration defaults as fallback
 DEFAULT_SETTINGS: dict = {
     "app_name": "Aegis Core Platform",
-    "version": "1.0.0-rc4",
+    "version": _read_version_ssot(),
     "log_level": "INFO",
     "telemetry_interval_ms": 1000,
     "admin_required": True
 }
-
-import json
-import platform
-from pathlib import Path
 
 class AboutDialog(ctk.CTkToplevel):
     """About Dialog displaying build metadata and system info."""
@@ -57,7 +68,7 @@ class AboutDialog(ctk.CTkToplevel):
 
     def _load_metadata(self) -> dict:
         metadata = {
-            "version": "1.0.0-rc4",
+            "version": _read_version_ssot(),
             "build_timestamp": "Local Development",
             "commit_hash": "DEBUG-DEV",
             "python_version": platform.python_version(),
@@ -235,7 +246,7 @@ class AegisApp(ctk.CTk):
             master=self,
             theme=self.theme,
             on_navigate=self.navigate_to,
-            version=self.config.get("version", "1.0.0-rc4")
+            version=self.config.get("version", _read_version_ssot())
         )
         self.sidebar.grid(row=0, column=0, rowspan=2, sticky="nsew")
 
