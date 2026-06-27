@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0] - 2026-06-27
+
+### Added
+- **Official Stable Production Release**: Promoted platform to stable v1.0.0 production edition incorporating full release validation diagnostics, parameterised Inno Setup installations, and dynamic GitHub Release CD integration workflows.
+
 ## [1.0.0-rc4] - 2026-06-27
 
 ### Added
