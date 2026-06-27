@@ -1,4 +1,4 @@
-"""Telemetry data models using Python dataclasses for Aegis Toolkit."""
+"""Telemetry data models using Python dataclasses for Aegis Core Platform."""
 
 from dataclasses import dataclass
 
@@ -9,6 +9,8 @@ class CPUInfo:
     temperature: float
     model_name: str
     frequency_ghz: float
+    voltage: float
+    power_draw_watts: float
 
 
 @dataclass(frozen=True)
@@ -27,6 +29,9 @@ class DiskInfo:
     percentage: float
     health_percent: int
     status: str
+    temperature: float
+    power_on_hours: int
+    host_writes_gb: float
 
 
 @dataclass(frozen=True)
@@ -36,6 +41,9 @@ class BatteryInfo:
     is_charging: bool
     health_percent: int
     time_remaining_mins: int
+    design_capacity_mwh: int
+    current_capacity_mwh: int
+    cycle_count: int
 
 
 @dataclass(frozen=True)
@@ -57,5 +65,8 @@ class TelemetryReport:
     os: OSInfo
     health_score: int
     gpu_model: str
+    gpu_utilization: float
+    gpu_temperature: float
     network_adapter: str
     ip_address: str
+    network_latency_ms: float
