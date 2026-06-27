@@ -65,6 +65,28 @@ class ReleaseValidator:
             if not os.path.exists(file_path):
                 return False, f"Required release file is missing: {file}"
 
+        # Verify quality assurance reports existence (CR-7)
+        reports_dir = os.path.dirname(release_dir)
+        cov_xml = os.path.join(reports_dir, "coverage", "coverage.xml")
+        bench_md = os.path.join(reports_dir, "benchmark", "benchmark.md")
+        bench_json = os.path.join(reports_dir, "benchmark", "benchmark.json")
+
+        if not os.path.exists(cov_xml):
+            return False, "Quality report is missing: reports/coverage/coverage.xml"
+        if not os.path.exists(bench_md):
+            return False, "Quality report is missing: reports/benchmark/benchmark.md"
+        if not os.path.exists(bench_json):
+            return False, "Quality report is missing: reports/benchmark/benchmark.json"
+
+        # Verify dummy installer block in CI environment (CR-2)
+        is_ci = os.getenv("GITHUB_ACTIONS") == "true" or os.getenv("CI") == "true"
+        if is_ci:
+            setup_path = os.path.join(release_dir, "AegisSetup.exe")
+            with open(setup_path, "r", encoding="utf-8", errors="ignore") as f:
+                first_line = f.readline()
+                if "Dummy Setup Content" in first_line:
+                    return False, "Validation failed: Dummy setup installer detected in CI/CD environment"
+
         # Validate SHA256 checksums file content
         checksums_path = os.path.join(release_dir, "checksums.sha256")
         with open(checksums_path, "r", encoding="utf-8") as f:

@@ -96,6 +96,36 @@ def test_rollback_engine_metadata_backup(container: ServiceContainer, tmp_path: 
     assert len(data["changes"]) == 1
     assert data["changes"][0]["original_value"] == "Balanced-GUID"
 
+def test_rollback_engine_no_backups(container: ServiceContainer, tmp_path: Path) -> None:
+    engine = RollbackEngine(container)
+    engine.backups_dir = tmp_path
+    
+    res = engine.rollback()
+    assert res["status"] == "FAILED"
+    assert "No restore points found" in res["reason"]
+
+def test_rollback_engine_success(container: ServiceContainer, tmp_path: Path) -> None:
+    engine = RollbackEngine(container)
+    engine.backups_dir = tmp_path
+    
+    # Create mock backup json
+    engine.create_backup("PERFORMANCE", "Balanced-GUID", "Perf-GUID")
+    
+    res = engine.rollback()
+    assert res["status"] == "SUCCESS"
+    assert not (tmp_path / res["restored_file"]).exists()  # Verify deleted/unlinked after rollback
+
+def test_rollback_engine_check_restore_point(container: ServiceContainer) -> None:
+    engine = RollbackEngine(container)
+    # Under demo mode, should return True
+    assert engine.check_restore_point_enabled() is True
+
+def test_rollback_engine_trigger_restore_point(container: ServiceContainer) -> None:
+    engine = RollbackEngine(container)
+    # Under demo mode, trigger should exit early
+    engine.trigger_windows_restore_point()
+
+
 
 # ── 5. Service Facade Tests ────────────────────────────────────────────
 def test_service_apply_optimization_facade(svc: OptimizationService) -> None:

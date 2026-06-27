@@ -53,6 +53,7 @@ jobs:
         if (-not (Test-Path "$ReleaseDir/AegisPortable.zip")) { throw "AegisPortable.zip is missing" }
         if (-not (Test-Path "$ReleaseDir/checksums.sha256")) { throw "checksums.sha256 is missing" }
         if (-not (Test-Path "$ReleaseDir/release_notes.md")) { throw "release_notes.md is missing" }
+        if (-not (Test-Path "$ReleaseDir/manifest.json")) { throw "manifest.json is missing" }
         if (-not (Test-Path "reports/coverage/coverage.xml")) { throw "coverage.xml is missing" }
         if (-not (Test-Path "reports/benchmark/benchmark.md")) { throw "benchmark.md is missing" }
         if (-not (Test-Path "reports/benchmark/benchmark.json")) { throw "benchmark.json is missing" }
@@ -66,6 +67,7 @@ jobs:
           reports/release/AegisPortable.zip
           reports/release/checksums.sha256
           reports/release/release_notes.md
+          reports/release/manifest.json
           reports/coverage/coverage.xml
           reports/benchmark/benchmark.md
           reports/benchmark/benchmark.json

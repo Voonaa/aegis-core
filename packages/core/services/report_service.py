@@ -29,7 +29,7 @@ class ReportService:
         """
         try:
             hardware_service = self.container.get("hardware_service")
-            profile_mgr = self.container.get("profile_manager")
+            profile_mgr = self.container.get("profile_mgr")
             
             # Fetch latest data payload
             report: TelemetryReport = hardware_service.gather_telemetry()

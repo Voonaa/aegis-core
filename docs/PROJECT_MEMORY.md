@@ -35,6 +35,7 @@ This file is the single source of truth for the current state of development. **
   - v1.0.0-rc4 (Release Candidate 4)
   - v1.0.0 (Official Stable Production Release)
   - Gold-Portfolio-Sprint-1 (Epic 1: Repository Branding & Documentation Refactoring)
+  - Gold-Portfolio-Sprint-2 (Epic 3: Professional GitHub Release Experience & Polish)
 * **Current Active Focus**: Portfolio Edition — Production Maintenance Mode.
 
 ### File Registry Status
@@ -52,8 +53,7 @@ This file is the single source of truth for the current state of development. **
 * `plugins/example_plugin/`: **[COMPLETED]** - Extensibility runtime demo example (`manifest.json`, `main.py`).
 * `scripts/`: **[COMPLETED]** - Static checks (`lint.ps1`), release pipeline (`release.ps1`), and benchmarks (`benchmark.py`).
 * `tests/`: **[COMPLETED]** - Unit test suites.
-* `reports/`: **[COMPLETED]** - Unified folder containing benchmark SVG/JSONs, htmlcov reports, diagnostics, and release portable packages.
-* `release/`: **[COMPLETED]** - Portable release outputs and checksum maps.
+* `reports/`: **[COMPLETED]** - Unified folder containing benchmark SVG/JSONs, htmlcov reports, diagnostics, and release portable packages (globally ignored).
 * `docs/ARCHITECTURE.md`: **[COMPLETED]** - Updated with v1.0.0 accurate monorepo layout and design patterns.
 * `docs/ROADMAP.md`: **[COMPLETED]** - Updated with full sprint history and Gold Phase status.
 * `docs/cli.md`: **[COMPLETED]** - CLI command reference with examples and output samples.
@@ -71,7 +71,8 @@ This file is the single source of truth for the current state of development. **
 Aegis/ (c:\tools Advan)
 ├── .github/
 │   └── workflows/
-│       └── ci.yml
+│       ├── ci.yml
+│       └── release.yml
 ├── .gitignore
 ├── CHANGELOG.md
 ├── requirements.txt
@@ -79,6 +80,7 @@ Aegis/ (c:\tools Advan)
 ├── scripts/
 │   ├── lint.ps1
 │   ├── release.ps1
+│   ├── release_validator.py
 │   └── benchmark.py
 ├── apps/
 │   └── desktop/
@@ -86,8 +88,7 @@ Aegis/ (c:\tools Advan)
 │       ├── main.py
 │       ├── config/
 │       │   ├── settings.json
-│       │   ├── theme.json
-│       │   └── build_metadata.json
+│       │   └── theme.json
 │       └── ui/
 │           ├── base_page.py
 │           ├── sidebar.py
@@ -154,20 +155,13 @@ Aegis/ (c:\tools Advan)
 │   └── example_plugin/
 │       ├── main.py
 │       └── manifest.json
-├── release/
-│   └── aegis_v1.0.0-rc2_portable/
-│       ├── Aegis.bat
-│       ├── CHANGELOG.md
-│       ├── checksums.sha256
-│       ├── pyproject.toml
-│       ├── requirements.txt
-│       ├── apps/
-│       ├── packages/
-│       └── plugins/
 └── tests/
     ├── __init__.py
+    ├── test_release_validator.py
     └── test_core/
         ├── __init__.py
+        ├── test_bootstrap.py
+        ├── test_command_registry.py
         ├── test_config.py
         ├── test_logger.py
         ├── test_container.py
@@ -175,10 +169,13 @@ Aegis/ (c:\tools Advan)
         ├── test_health_service.py
         ├── test_intelligence_model.py
         ├── test_jobs.py
+        ├── test_optimization.py
         ├── test_performance.py
         ├── test_plugin_loader.py
+        ├── test_privilege_service.py
         ├── test_profile_manager.py
         ├── test_recommendation.py
+        ├── test_report_service.py
         ├── test_sdk.py
         ├── test_telemetry_models.py
         └── test_windows_intelligence.py
@@ -192,5 +189,7 @@ Aegis/ (c:\tools Advan)
 ---
 
 ## 5. Next Steps
-* Repository documentation refactoring (Epic 1) is complete. Repository is in Portfolio Edition maintenance mode.
-* No new features planned for v1.0.0 scope. Any future work requires explicit Technical Lead approval.
+* Gold-Portfolio-Sprint-2 (Epic 3: Release Engineering Polish) is completed successfully.
+* Code coverage has reached 70% with strict release validation schemas in place.
+* The repository is now ready for v1.0.0 final release deployment.
+* Any future work requires explicit Technical Lead approval.

@@ -84,3 +84,40 @@ def test_loaded_settings(setup_test_container: ServiceContainer, tmp_path: Path)
     assert app.config.get("telemetry_interval_ms") == 500
     assert not app.config.get("admin_required")
     app.destroy()
+
+def test_config_manager_set_and_get(tmp_path: Path) -> None:
+    config_file = tmp_path / "settings.json"
+    defaults = {"key1": "val1", "key2": "val2"}
+    mgr = ConfigManager(config_path=config_file, default_settings=defaults)
+    
+    # Test initial get
+    assert mgr.get("key1") == "val1"
+    
+    # Test set and auto-save
+    mgr.set("key1", "new_val")
+    assert mgr.get("key1") == "new_val"
+    
+    # Test get missing key with default
+    assert mgr.get("missing_key", "fallback") == "fallback"
+
+def test_config_manager_corrupt_file(tmp_path: Path) -> None:
+    config_file = tmp_path / "corrupt_settings.json"
+    # Write corrupt JSON content
+    with open(config_file, "w", encoding="utf-8") as f:
+        f.write("not a valid json dictionary")
+        
+    defaults = {"app_name": "Aegis Default"}
+    mgr = ConfigManager(config_path=config_file, default_settings=defaults)
+    # Verify falls back to default settings
+    assert mgr.get("app_name") == "Aegis Default"
+
+def test_config_manager_save_error(tmp_path: Path) -> None:
+    # Use directory path instead of file path to trigger OS IO exception on save
+    invalid_path = tmp_path / "directory_instead_of_file"
+    invalid_path.mkdir()
+    
+    defaults = {"app_name": "Aegis Default"}
+    mgr = ConfigManager(config_path=invalid_path, default_settings=defaults)
+    # Save call should not crash despite exception
+    mgr.save()
+

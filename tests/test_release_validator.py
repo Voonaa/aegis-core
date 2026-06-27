@@ -108,6 +108,11 @@ class TestReleaseValidator(unittest.TestCase):
         self.write_file("reports/release/manifest.json", "{}")
         self.write_file("reports/release/release_notes.md", "## Version\n## Release Date\n## Highlights\n## Bug Fixes\n## Performance\n## Checksums\n## Installation\n## Known Issues")
         
+        # Write mock coverage and benchmark reports
+        self.write_file("reports/coverage/coverage.xml", "<coverage></coverage>")
+        self.write_file("reports/benchmark/benchmark.md", "# Benchmarks")
+        self.write_file("reports/benchmark/benchmark.json", "{}")
+
         ok, msg = self.validator.validate_release_artifacts(release_dir)
         self.assertTrue(ok, msg)
 
