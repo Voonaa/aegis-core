@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Gold-Portfolio-Sprint-1] - 2026-06-27
+
+### Added
+- **README Landing Page**: Refactored `README.md` from a 177-line technical document into a concise, professional landing page with hero subtitle, "Why Aegis?" section, "Core Technologies" table, structured screenshot gallery, and a contributors section crediting the project author.
+- **Documentation Module — Architecture**: Updated `docs/ARCHITECTURE.md` with accurate v1.0.0 monorepo layout, five core design patterns (Dependency Injection, HAL, EventBus, Repository, Strategy), and a full system data flow diagram.
+- **Documentation Module — CLI Reference**: Created `docs/cli.md` with full command reference table, example console output, supported export formats, and automation integration guidance.
+- **Documentation Module — SDK Reference**: Created `docs/sdk.md` documenting all three public SDK namespaces (`HardwareSDK`, `RepairSDK`, `ReportSDK`) with method signatures, property tables, and usage examples.
+- **Documentation Module — Plugin System**: Created `docs/plugins.md` with manifest JSON specification, permission model, lifecycle hook sequence diagram, DI container integration guide, and a complete working plugin example.
+- **Documentation Module — Developer Guide**: Created `docs/developer-guide.md` covering prerequisites, virtual environment setup, test execution, static analysis commands, naming conventions, git workflow, and debugging tips.
+- **Documentation Module — Release Guide**: Created `docs/release-guide.md` documenting `release.ps1` pipeline steps, GitHub Actions release workflow, SSOT versioning policy, and checksum verification.
+- **Documentation Module — Roadmap**: Updated `docs/ROADMAP.md` with complete sprint history table from Sprint 0 through v1.0.0 Stable, current Gold Phase status, and future considerations.
+- **Documentation Module — FAQ**: Created `docs/faq.md` covering installation, WMI permissions, Health Score explanation, telemetry storage, and development questions.
+- **Professional Badges**: Added nine shields.io badges to README (CI, Release, Python, License, Windows, Tests, Coverage, MyPy, Ruff).
+
 ## [1.0.0] - 2026-06-27
 
 ### Added

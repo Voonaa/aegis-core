@@ -1,53 +1,70 @@
-# Development Roadmap: Aegis Toolkit
+# Aegis Core Platform — Roadmap
 
-This document outlines the step-by-step product-based roadmap for the **Aegis Toolkit (Aegis)** platform. Development follows an Agile methodology organized across release milestones.
+> Dokumen ini mencatat history milestone pengembangan Aegis Core Platform dan rencana jangka panjang.
 
 ---
 
-## 📅 Release Milestones Gantt
+## Sprint History (Completed)
 
-```mermaid
-gantt
-    title Aegis Toolkit Product Roadmap
-    dateFormat  YYYY-MM-DD
-    section Phase Alpha
-    Sprint 0: Engineering Foundation   :completed, s0, 2026-06-27, 1d
-    Sprint 1: Core Setup               :active, s1, after s0, 3d
-    Sprint 2: UI View Routing & Shell  : s2, after s1, 4d
-    section Phase Beta
-    Sprint 3: Telemetry & Profile Engine: s3, after s2, 5d
-    Sprint 4: Maintenance Subprocess    : s4, after s3, 5d
-    section Phase RC
-    Sprint 5: BSOD Crash Analyzer      : s5, after s4, 5d
-    Sprint 6: Packaging & Installer    : s6, after s5, 3d
-    section Phase Stable
-    v1.0.0 Stable Release              : milestone, after s6, 1d
-    section Phase Enterprise
-    v2.0.0 Plugins & Cloud Engine       : s7, after v1.0.0, 10d
-```
+| Milestone | Status | Focus Area |
+|:---|:---:|:---|
+| Sprint 0 — Engineering Foundation | Done | SRS, ADRs, component libraries, design system |
+| Sprint 1 — Boilerplate Infrastructure | Done | Monorepo structure, dependency setup, config templates |
+| Sprint 2 — Application Shell & Telemetry Dashboard | Done | Sidebar nav, viewport router, dashboard widgets |
+| Sprint 3 — Core Hardware Platform & Diagnostic Reports | Done | HAL (CPU/RAM/Disk/Battery), WMI queries, health scoring |
+| Sprint 4 — Active System Management | Done | Async job manager, SFC/DISM/CHKDSK runners |
+| Sprint 5 — Extensibility Platform & Aegis Core SDK | Done | Plugin loader, DI container, SDK public API |
+| RC 1 — Monorepo Restructure & Hardening | Done | Ruff, MyPy, Pytest, test coverage, monorepo layout |
+| RC 2 — UX & Design Tokens Calibration | Done | Theme system, typography, layout polish |
+| RC 3 — Distribution & Release Engineering | Done | release.ps1, Inno Setup, SHA256, portable build |
+| Gold Sprint 1 — Real Hardware Integration | Done | Live WMI polling, psutil integration, HAL accuracy |
+| Gold Sprint 2 — Beautiful Dashboard & Live Charts | Done | Matplotlib charts, health trend lines, animated metrics |
+| Gold Sprint 3 — Quality & Testing Hardening | Done | 99 unit tests, mocking WMI, 80%+ coverage |
+| Gold Sprint 4 — Modular Optimization & Safe Profiles | Done | Performance/Balanced/PowerSaver profiles |
+| Gold Sprint 5 — Enterprise Monitoring & Observability | Done | Export pipeline, multi-format reports, event logging |
+| Gold Sprint 6 — Analytics & Historical Dashboard | Done | SQLite telemetry, historical charts, time-range filters |
+| v1.0.0-rc4 — Release Candidate 4 | Done | Installer hardening, GitHub Actions, API docs |
+| **v1.0.0 Stable** | **Released** | Official production-ready release — 2026-06-27 |
 
-### 🔹 Phase Alpha (Core Architecture)
-* **Sprint 0: Engineering Foundation** (Status: **COMPLETED**)
-  - Formulate SRS, component libraries, Design tokens, test specifications, and ADRs.
-* **Sprint 1: Boilerplate Infrastructure**
-  - Create directory structures, dependency setups, default JSON config templates, Subsystem logger.
-* **Sprint 2: UI View Routing & Shell**
-  - Build left navigation sidebar, viewport router, empty page views, and the embedded Developer Console.
+---
 
-### 🔹 Phase Beta (System Integration)
-* **Sprint 3: Telemetry & Profile Engine**
-  - Build WMI motherboard vendor detection, profile configurations JSON loads, and real-time dashboard widget binders. Calculate weighted Health Score.
-* **Sprint 4: Maintenance Subprocess Automation**
-  - Establish PowerShell async runner, thread executors, background status console updates, and environment variables exporters.
+## Current Phase: v1.0 Gold — Portfolio Edition
 
-### 🔹 Phase RC (Testing & Packaging)
-* **Sprint 5: BSOD Crash Analyzer (AI Recommendation)**
-  - Implement Event Viewer and crash dump reader logic inside `core/windows.py`. Compute warning banners on conflict events.
-* **Sprint 6: Distributables Build**
-  - Packaging the complete app using `PyInstaller` with admin manifests, setting up desktop shortcuts and uninstallers.
+Focus: Meningkatkan kualitas repository agar setara dengan project open source enterprise-grade.
 
-### 🔹 Phase Stable (Product Delivery)
-* Compile release candidates, complete manual test suites, and tag the v1.0.0 repository stable branch.
+| Epic | Status | Deliverable |
+|:---|:---:|:---|
+| Epic 1 — Repository Branding & Documentation | In Progress | README landing page, 8 docs files |
 
-### 🔹 Phase Enterprise (Future Scale)
-* JSON-driven plugins loads, settings cloud configuration synchronization, and automated updates checking.
+---
+
+## Future Considerations (Post v1.0)
+
+> Items berikut belum disetujui dan bukan bagian dari scope v1.0.0.
+
+| Feature | Estimated Effort |
+|:---|:---:|
+| v1.1 — GPU Temperature Monitoring | Small |
+| v1.1 — Notification Tray Icon | Medium |
+| v1.2 — Plugin Marketplace | Large |
+| v2.0 — Multi-machine Dashboard | XL |
+
+---
+
+## Versioning Policy
+
+Aegis follows [Semantic Versioning](https://semver.org/):
+
+- `MAJOR` — Breaking changes
+- `MINOR` — New features (backward compatible)
+- `PATCH` — Bug fixes only
+
+The version string is managed exclusively in `version.txt` as the Single Source of Truth.
+
+---
+
+## Further Reading
+
+- [Changelog](../CHANGELOG.md) — Detailed per-release change log
+- [Release Guide](release-guide.md) — How to build and publish a release
+- [Architecture](architecture.md) — Technical platform design

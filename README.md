@@ -1,176 +1,176 @@
 # 🛡 Aegis Core Platform
 
-[![CI Pipeline Status](https://img.shields.io/github/actions/workflow/status/Voonaa/aegis-core/ci.yml?branch=develop)](https://github.com/Voonaa/aegis-core/actions)
-[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-blue)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/github/license/Voonaa/aegis-core?color=blue)](https://github.com/Voonaa/aegis-core/blob/develop/LICENSE)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Voonaa/aegis-core?color=orange)](https://github.com/Voonaa/aegis-core/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-lightgrey)](#)
+[![CI](https://img.shields.io/github/actions/workflow/status/Voonaa/aegis-core/ci.yml?branch=develop&label=CI&logo=githubactions&logoColor=white)](https://github.com/Voonaa/aegis-core/actions)
+[![Release](https://img.shields.io/github/v/release/Voonaa/aegis-core?label=release&color=orange&logo=github)](https://github.com/Voonaa/aegis-core/releases)
+[![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-3776ab?logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/github/license/Voonaa/aegis-core?color=blue)](LICENSE)
+[![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4?logo=windows&logoColor=white)](#)
+[![Tests](https://img.shields.io/badge/tests-99%20passed-22c55e?logo=pytest&logoColor=white)](https://github.com/Voonaa/aegis-core/actions)
+[![Coverage](https://img.shields.io/badge/coverage-80%25%2B-4ade80)](#)
+[![MyPy](https://img.shields.io/badge/typed-mypy-2a6db5)](https://mypy-lang.org/)
+[![Ruff](https://img.shields.io/badge/linter-ruff-ef4444)](https://docs.astral.sh/ruff/)
 
 > **One Click. One Platform. Total Control.**
-> An enterprise-grade, modular Windows Diagnostics & System Management Platform engineered to analyze telemetry, run async repair jobs, and dynamically score host health.
+> An enterprise-grade, modular Windows Diagnostics & System Management Platform engineered to analyze hardware telemetry, run async repair jobs, and dynamically score host health.
+
+*Built for Windows diagnostics, optimization, and hardware telemetry with enterprise-grade architecture.*
 
 ---
 
-## 🏛 Platform Architecture
+## Table of Contents
 
-Aegis is engineered as a decoupled monorepo, cleanly isolating core systems, desktop representations, and dynamic extension plugins.
-
-```text
-Aegis Core Platform (Monorepo)
-├── apps/
-│   └── desktop/           # CustomTkinter GUI presentation layer
-├── packages/
-│   ├── core/              # HAL engines, dependency injection, and event buses
-│   └── sdk/               # Public API entry point wrapper classes
-├── plugins/               # External runtime manifest extensions
-├── scripts/               # Quality linter and automated release tools
-└── tests/                 # Unit test coverage files
-```
-
-### Decoupled Subsystem Pipeline
-```text
-Hardware (WMI / WinReg) -> HAL Telemetry -> Health Scoring -> Recommendation Engine
-                                                                    │
-GUI Desktop Viewports <------ EventBus <------ JobManager <─────────┘
-```
+- [Why Aegis?](#-why-aegis)
+- [Features](#-features)
+- [Screenshots](#-screenshots)
+- [Quick Start](#-quick-start)
+- [Core Technologies](#-core-technologies)
+- [Architecture](#-architecture)
+- [Documentation](#-documentation)
+- [Download](#-download)
+- [License](#-license)
+- [Contributors](#-contributors)
 
 ---
 
-## 📸 Application User Interface Screenshots
+## 💡 Why Aegis?
 
-### 1. Dashboard Page
-Displays virtualization statuses, real-time WMI queries, dynamic scoring metrics, and system profiles overlay.
+- 🏛 **Enterprise Architecture** — Decoupled monorepo with Dependency Injection, HAL, and EventBus — built to scale.
+- ⚡ **Real-Time Diagnostics** — Live WMI & psutil polling for CPU, RAM, GPU, Disk, and Battery.
+- 🔌 **Extensible by Design** — Drop a folder into `plugins/` and Aegis loads it automatically at runtime.
+- 🧪 **Production Quality** — 99 unit tests, MyPy type-safe, Ruff-linted, and 80%+ code coverage.
+- 📦 **Zero-Install Ready** — Ships as a self-contained portable `.zip` with automated CI/CD release pipeline.
+
+---
+
+## 🚀 Features
+
+Aegis Core is an enterprise-grade Windows diagnostics platform designed for developers, IT administrators, power users, and hardware enthusiasts.
+
+- **Hardware Abstraction Layer (HAL)**: Live WMI & psutil polling for CPU, RAM, GPU, Disk, and Battery metrics.
+- **Async Job Manager**: Thread-safe background scheduler for SFC, DISM, and CHKDSK — UI never freezes.
+- **Health Scoring Engine**: Rules-based engine scores system health (0–100) with context-aware recommendations.
+- **Strategy-Based Export**: Export telemetry history to `CSV`, `JSON`, `Markdown`, or `HTML`.
+- **Plugin SDK**: Folder-based runtime extensions with manifest validation, lifecycle hooks, and DI integration.
+- **Design Token Theming**: All visual parameters defined in `theme.json` — customizable without touching code.
+
+---
+
+## 📸 Screenshots
+
+## Dashboard
+Displays real-time WMI telemetry, dynamic health score, system profile overlay, and recommendation engine alerts.
 ![Aegis Dashboard](docs/assets/dashboard.png)
 
-### 2. Monitor Page
-Tracks active CPU cores loads, GPU capacities, RAM percentages, motherboard temperatures, and latency metrics in dynamic charts.
-![Aegis Hardware Monitor](docs/assets/monitor.png)
+## Monitor
+Tracks CPU core loads, GPU VRAM, RAM usage, motherboard temperatures, and disk health in live charts.
+![Aegis Monitor](docs/assets/monitor.png)
 
-### 3. Optimization Page
-Manages active system tuning presets (Performance, Balanced, Power Saver) and triggers safe maintenance tasks.
-![Aegis System Optimization](docs/assets/optimization.png)
+## Optimization
+Manages Performance, Balanced, and Power Saver presets with safe-guard confirmation dialogs.
+![Aegis Optimization](docs/assets/optimization.png)
 
-### 4. Diagnostics Report Page
-Compiles details checklists of hardware SMART indicators, battery health, CPU thermal zone parameters, and active diagnostic reports.
-![Aegis Diagnostics Report](docs/assets/report.png)
+## Report
+Compiles SMART indicators, battery wear cycles, CPU thermal zone data, and full diagnostic checklists.
+![Aegis Report](docs/assets/report.png)
 
-### 5. Settings Configuration Page
-Regulates general preferences, CustomTkinter dynamic window theme scaling, and third-party extension plugin lifecycle states.
+## Settings
+Controls UI theme scaling, CustomTkinter appearance, and third-party plugin lifecycle states.
 ![Aegis Settings](docs/assets/settings.png)
 
 ---
 
-## 🚀 Key Features
+## ⚡ Quick Start
 
-* **Hardware Abstraction Layer (HAL)**: Dynamic polling of CPU loads, RAM capacities, SSD SMART health parameters, battery degradation metrics, and active virtualisation hypervisor environments.
-* **Asynchronous Job Manager**: Asynchronous, thread-safe background process scheduler executing SFC, DISM, and CHKDSK utilities without freezing the main visual window.
-* **Rules-Based Recommendation Engine**: Real-time evaluation of host hardware parameters against threshold guidelines to suggest context-aware system optimization advices.
-* **Extensibility Plugin SDK**: Dynamic folder-based runtime extensions loading custom manifes JSONs, verifying admin access boundaries, and triggering standard lifecycle hooks (`initialize`, `start`, `dispose`).
-* **Design Tokens styling**: Fully customizable aesthetic parameters (`theme.json`) regulating sizes, typography font weights, margins, and corners dynamically.
+```powershell
+# 1. Clone the repository
+git clone https://github.com/Voonaa/aegis-core.git
+cd aegis-core
 
----
+# 2. Install dependencies
+pip install -r requirements.txt
 
-## 🛠 Quick Start Guide
-
-### Prerequisites
-* **Windows OS** (Recommended: Windows 10/11)
-* **Python 3.11+** installed and added to PATH.
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Voonaa/aegis-core.git
-   cd aegis-core
-   ```
-2. Install system dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-### Execution
-Launch the Aegis Desktop UI wrapper:
-```bash
-$env:PYTHONPATH="."
+# 3. Launch
+$env:PYTHONPATH = "."
 python apps/desktop/main.py
 ```
 
-### 💻 Command Line Interface (CLI) Reference
-Aegis Core Platform bundles a command-line interface for headless execution and automated diagnostics. Run using the module launcher:
-
-| Command | Description | Example |
-| :--- | :--- | :--- |
-| `python -m packages.core.cli telemetry stats` | Queries CPU, RAM, Disk, and Battery diagnostics metrics and shows a console dashboard. | `python -m packages.core.cli telemetry stats` |
-| `python -m packages.core.cli telemetry export <format>` | Exports historical telemetry diagnostics. Supports format: `csv`, `json`, `md`, `html`. | `python -m packages.core.cli telemetry export csv` |
-| `python -m packages.core.cli telemetry clean` | Wipes the historical telemetry SQLite database records. | `python -m packages.core.cli telemetry clean` |
-| `python -m packages.core.cli help` | Displays list of CLI commands and configuration syntax guides. | `python -m packages.core.cli help` |
+> For full setup instructions, see the [Developer Guide](docs/developer-guide.md).
 
 ---
 
-## 🗺 Production Release Roadmap
+## 🔧 Core Technologies
+
+| Layer | Technology |
+|:---|:---|
+| Language | Python 3.14 |
+| UI | CustomTkinter |
+| Diagnostics | WMI + psutil |
+| Testing | Pytest |
+| CI/CD | GitHub Actions |
+| Quality | Ruff + MyPy |
+
+---
+
+## 🏛 Architecture
+
+Aegis is engineered as a **decoupled monorepo**, cleanly isolating core systems, desktop presentation, and dynamic extensions.
 
 ```text
-                  AEGIS CORE PLATFORM ROADMAP
-  
-   Sprint 0-6       RC 1-3          RC 4 (Final Polish)   v1.0.0 Stable
-  [Fitur Inti] ──► [Hardening] ──► [Release Validation] ──► [Production]
-   ✔ HAL & Core    ✔ Monorepo      ✔ SSOT version.txt       🚀 Production
-   ✔ Desktop UI    ✔ Checksums     ✔ GitHub Actions Release    Distribution
-   ✔ Plugin SDK    ✔ Codesign Ready✔ API SDK docs
+Aegis Core Platform
+├── apps/desktop/     # CustomTkinter GUI layer
+├── packages/core/    # HAL engines, DI container, EventBus, services
+├── packages/sdk/     # Public API (HardwareSDK, RepairSDK, ReportSDK)
+├── plugins/          # Runtime manifest extensions
+└── tests/            # 99-test unit suite
 ```
+
+```text
+Hardware (WMI/psutil) → HAL → TelemetrySnapshot → HealthEngine → EventBus → GUI
+```
+
+> See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design pattern breakdown.
 
 ---
 
-## 🔌 Writing Plugins (Aegis Plugin SDK)
+## 📚 Documentation
 
-Dynamic plugin folders reside inside the `plugins/` directory. Each extension plugin must contain:
-1. A manifest file: `manifest.json`
-2. An entry script: `main.py`
-
-### 1. Manifes Setup (`manifest.json`)
-```json
-{
-  "name": "Network Latency Extension",
-  "version": "1.0.0",
-  "author": "System Administrator",
-  "description": "Performs latency verification diagnostics.",
-  "permissions": ["filesystem"],
-  "entry_point": "main.py"
-}
-```
-
-### 2. Lifecycles Implementation (`main.py`)
-```python
-def initialize(container):
-    """Invoked when the plugin is loaded into the DI Container."""
-    print("Network extension registered.")
-
-def start():
-    """Invoked when the platform bootstrap completes."""
-    print("Network diagnostics active.")
-
-def dispose():
-    """Invoked when the app shuts down."""
-    print("Network extension teardown.")
-```
+| Document | Description |
+|:---|:---|
+| [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Monorepo layout, DI, HAL, EventBus, data flow |
+| [Developer Guide](docs/developer-guide.md) | Setup, tests, linting, git workflow, conventions |
+| [SDK Reference](docs/sdk.md) | HardwareSDK, RepairSDK, ReportSDK API reference |
+| [Plugin System](docs/plugins.md) | manifest.json, lifecycle hooks, permission model |
+| [CLI Reference](docs/cli.md) | Command-line interface usage and examples |
+| [Release Guide](docs/release-guide.md) | Local build, GitHub Actions workflow, versioning |
+| [ROADMAP.md](docs/ROADMAP.md) | Sprint history, current phase, future plans |
+| [FAQ](docs/faq.md) | Common questions on installation & usage |
+| [CHANGELOG](CHANGELOG.md) | Detailed per-release change log |
 
 ---
 
-## 📦 Automated Release Pipeline
+## 📦 Download
 
-Aegis includes automated packaging and release compilation tools. Running the release script verifies code compliance, runs unit tests, and packages a portable distribution folder containing calculated checksums:
+| Package | Format | Link |
+|:---|:---:|:---|
+| Portable Edition | `.zip` | [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) |
+| Windows Installer | `.exe` | [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) |
 
-```powershell
-# Run the release pipeline script
-.\scripts\release.ps1
-```
-
-The output folder is compiled under:
-`reports/release/aegis_v1.0.0_portable/`
-
-An Inno Setup compiler configuration file is also available under [installer/aegis_setup.iss](installer/aegis_setup.iss) to generate unified Windows Setup `.exe` installers.
+SHA256 checksums are provided for every release artifact.
 
 ---
 
 ## 🛡 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** — see [LICENSE](LICENSE) for details.
+
+---
+
+## 🤝 Contributors
+
+| | |
+|:---:|:---|
+| **Agus Marpaung** | Project Author & Maintainer |
+
+[![GitHub](https://img.shields.io/badge/GitHub-Voonaa-181717?logo=github)](https://github.com/Voonaa)
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request.

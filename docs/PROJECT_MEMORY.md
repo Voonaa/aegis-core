@@ -34,7 +34,8 @@ This file is the single source of truth for the current state of development. **
   - Gold Sprint 6 (Analytics & Historical Dashboard)
   - v1.0.0-rc4 (Release Candidate 4)
   - v1.0.0 (Official Stable Production Release)
-* **Current Active Focus**: Completed (Production Maintenance Mode).
+  - Gold-Portfolio-Sprint-1 (Epic 1: Repository Branding & Documentation Refactoring)
+* **Current Active Focus**: Portfolio Edition — Production Maintenance Mode.
 
 ### File Registry Status
 * `requirements.txt`: **[COMPLETED]** - Dependencies for Aegis.
@@ -53,6 +54,14 @@ This file is the single source of truth for the current state of development. **
 * `tests/`: **[COMPLETED]** - Unit test suites.
 * `reports/`: **[COMPLETED]** - Unified folder containing benchmark SVG/JSONs, htmlcov reports, diagnostics, and release portable packages.
 * `release/`: **[COMPLETED]** - Portable release outputs and checksum maps.
+* `docs/ARCHITECTURE.md`: **[COMPLETED]** - Updated with v1.0.0 accurate monorepo layout and design patterns.
+* `docs/ROADMAP.md`: **[COMPLETED]** - Updated with full sprint history and Gold Phase status.
+* `docs/cli.md`: **[COMPLETED]** - CLI command reference with examples and output samples.
+* `docs/sdk.md`: **[COMPLETED]** - HardwareSDK, RepairSDK, ReportSDK API reference documentation.
+* `docs/plugins.md`: **[COMPLETED]** - Plugin system guide with manifest spec, lifecycle hooks, and working example.
+* `docs/developer-guide.md`: **[COMPLETED]** - Developer setup, testing, linting, and contribution guide.
+* `docs/release-guide.md`: **[COMPLETED]** - Release pipeline and GitHub Actions workflow documentation.
+* `docs/faq.md`: **[COMPLETED]** - Common questions on installation, usage, and development.
 
 ---
 
@@ -178,9 +187,10 @@ Aegis/ (c:\tools Advan)
 ---
 
 ## 4. Known Issues & Blockers
-* **None**: RC3 release pipeline completed successfully.
+* **None**: v1.0.0 Gold Portfolio Sprint 1 completed successfully.
 
 ---
 
 ## 5. Next Steps
-* Proceed to Phase Beta (AI Engine: predictive health analytics, anomaly detection, and automated smart optimization rule structures).
+* Repository documentation refactoring (Epic 1) is complete. Repository is in Portfolio Edition maintenance mode.
+* No new features planned for v1.0.0 scope. Any future work requires explicit Technical Lead approval.
