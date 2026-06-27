@@ -36,6 +36,11 @@ logs/
 temp/
 backup/
 *.exe
+reports/release/*.zip
+reports/release/*.exe
+reports/coverage/
+htmlcov/
+.coverage
 
 # OS / IDE
 .vscode/

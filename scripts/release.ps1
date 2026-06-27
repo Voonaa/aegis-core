@@ -158,6 +158,19 @@ if ($null -ne $ISCC -and (Test-Path $ISCC)) {
     Write-Host "  To compile Aegis_Setup_v$Version.exe, please install Inno Setup 6 (https://jrsoftware.org/isdl.php) and add it to your environment PATH." -ForegroundColor Gray
 }
 
+# 9. Compress Portable Release Package to ZIP
+Write-Host "`n[Step 9] Creating Portable ZIP Archive..." -ForegroundColor Yellow
+$ZipDest = Join-Path $ReleaseRoot "aegis_portable.zip"
+try {
+    if (Test-Path $ZipDest) {
+        Remove-Item -Path $ZipDest -Force
+    }
+    Compress-Archive -Path "$PortableDir\*" -DestinationPath $ZipDest -Force
+    Write-Host "  ZIP Archive successfully created: $ZipDest" -ForegroundColor Green
+} catch {
+    Write-Host "  Warning: Failed to create ZIP archive: $_" -ForegroundColor Red
+}
+
 Write-Host "`n==================================================" -ForegroundColor Green
 Write-Host "  Aegis portable release v$Version successfully built!" -ForegroundColor Green
 Write-Host "  Location: $PortableDir" -ForegroundColor Green
