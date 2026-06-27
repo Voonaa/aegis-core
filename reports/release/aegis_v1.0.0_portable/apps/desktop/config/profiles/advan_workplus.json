@@ -1,0 +1,17 @@
+{
+  "profile_name": "Advan Workplus",
+  "manufacturer_match": "Advan",
+  "optimizations": {
+    "enable_standby_flush": true,
+    "power_plan_preset": "high_performance",
+    "services_to_disable": [
+      "SysMain",
+      "DiagTrack"
+    ]
+  },
+  "warnings": {
+    "check_virtualization_conflicts": true,
+    "check_update_errors": true,
+    "recommend_ryzen_master_driver_check": true
+  }
+}

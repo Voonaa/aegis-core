@@ -7,13 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2026-06-27
-
-### Added
-- **Production Release Package**: Created the automated pipeline to compile build metadata (version, commit hash, Python version) and assemble the portable directory (`reports/release/aegis_v1.0.0_portable/`) complete with verification manifests (`checksums.sha256`) and an Authenticode code-signing certificate verification step.
-- **GitHub Community Guidelines**: Configured issue report templates (`bug_report.md`, `feature_request.md`, `hardware_compat.md`) and a standard Pull Request merge checklist.
-- **Repository Safety Documents**: Established root policy documents: `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `SUPPORTED_HARDWARE.md` outlining local dev setups, WMI queries, and private vulnerability disclosure procedures.
-
 ## [Gold-Sprint-6] - 2026-06-27
 
 ### Added

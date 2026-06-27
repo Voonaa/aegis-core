@@ -1,0 +1,8 @@
+{
+  "app_name": "Aegis Core Platform",
+  "version": "1.0.0-rc2",
+  "log_level": "INFO",
+  "telemetry_interval_ms": 1000,
+  "admin_required": true,
+  "demo_mode": false
+}
