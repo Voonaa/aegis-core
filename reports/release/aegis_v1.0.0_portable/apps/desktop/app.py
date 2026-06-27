@@ -19,7 +19,7 @@ logger = get_subsystem_logger("SYSTEM")
 # Configuration defaults as fallback
 DEFAULT_SETTINGS: dict = {
     "app_name": "Aegis Core Platform",
-    "version": "1.0.0-rc5",
+    "version": "1.0.0-rc4",
     "log_level": "INFO",
     "telemetry_interval_ms": 1000,
     "admin_required": True
@@ -57,7 +57,7 @@ class AboutDialog(ctk.CTkToplevel):
 
     def _load_metadata(self) -> dict:
         metadata = {
-            "version": "1.0.0-rc5",
+            "version": "1.0.0-rc4",
             "build_timestamp": "Local Development",
             "commit_hash": "DEBUG-DEV",
             "python_version": platform.python_version(),
@@ -235,7 +235,7 @@ class AegisApp(ctk.CTk):
             master=self,
             theme=self.theme,
             on_navigate=self.navigate_to,
-            version=self.config.get("version", "1.0.0-rc5")
+            version=self.config.get("version", "1.0.0-rc4")
         )
         self.sidebar.grid(row=0, column=0, rowspan=2, sticky="nsew")
 

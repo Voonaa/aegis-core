@@ -7,16 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0-rc5] - 2026-06-27
+## [1.0.0-rc4] - 2026-06-27
 
 ### Added
 - **UI Screenshots Automation**: Added a dynamic screenshot capture loop (`--capture-screenshots`) inside the desktop Tkinter main loop to automatically save client area page frames to `docs/assets/`.
 - **Inno Setup Script Configuration**: Created `installer/aegis_setup.iss` to package unified setup executables.
 - **Dependency Resolution Fix**: Resolved duplicate parent path concatenations in main.py boot config and unified the DI ServiceContainer profile key mapping to `"profile_mgr"`.
-
-## [1.0.0-rc4] - 2026-06-27
-
-### Added
 - **Production Release Package**: Created the automated pipeline to compile build metadata (version, commit hash, Python version) and assemble the portable directory (`reports/release/aegis_v1.0.0_portable/`) complete with verification manifests (`checksums.sha256`) and an Authenticode code-signing certificate verification step.
 - **GitHub Community Guidelines**: Configured issue report templates (`bug_report.md`, `feature_request.md`, `hardware_compat.md`) and a standard Pull Request merge checklist.
 - **Repository Safety Documents**: Established root policy documents: `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `SUPPORTED_HARDWARE.md` outlining local dev setups, WMI queries, and private vulnerability disclosure procedures.

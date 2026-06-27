@@ -6,7 +6,7 @@ This file is the single source of truth for the current state of development. **
 
 ## 1. Project Overview
 * **Project Name**: Aegis Core Platform
-* **Current Version**: 1.0.0-rc5 (Release Candidate)
+* **Current Version**: 1.0.0-rc4 (Release Candidate)
 * **Vision**: An enterprise-grade modular Windows diagnostics and performance optimization engine. It splits into:
   - **Aegis Core (Engine)**: Subsystems containing HAL components, background Job threads, and WMI queries.
   - **Aegis Desktop (GUI)**: CustomTkinter layout dashboard.
@@ -32,7 +32,7 @@ This file is the single source of truth for the current state of development. **
   - Gold Sprint 4 (Modular Optimization & Safe Profiles)
   - Gold Sprint 5 (Enterprise Monitoring & Observability)
   - Gold Sprint 6 (Analytics & Historical Dashboard)
-  - v1.0.0-rc5 (Release Candidate 5)
+  - v1.0.0-rc4 (Release Candidate 4)
 * **Current Active Focus**: Phase Beta (AI Engine & Diagnostics).
 
 ### File Registry Status

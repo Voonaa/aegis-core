@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Aegis Core Platform
-AppVersion=1.0.0-rc5
+AppVersion=1.0.0-rc4
 AppPublisher=Aegis Platform Open Source
 DefaultDirName={autopf}\AegisCore
 DefaultGroupName=Aegis Core Platform
@@ -11,7 +11,7 @@ UninstallDisplayIcon={app}\Aegis.bat
 Compression=lzma2
 SolidCompression=yes
 OutputDir=..\reports\release
-OutputBaseFilename=Aegis_Setup_v1.0.0-rc5
+OutputBaseFilename=Aegis_Setup_v1.0.0-rc4
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 
