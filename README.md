@@ -12,11 +12,14 @@
 [![Ruff](https://img.shields.io/badge/linter-ruff-ef4444)](https://docs.astral.sh/ruff/)
 [![MyPy](https://img.shields.io/badge/typed-mypy-2a6db5)](https://mypy-lang.org/)
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-3776ab?logo=python&logoColor=white)](https://www.python.org/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=githubpages&logoColor=white)](https://voonaa.github.io/aegis-core/)
 
 > **One Click. One Platform. Total Control.**
 > An enterprise-grade, modular Windows Diagnostics & System Management Platform engineered to analyze hardware telemetry, run async repair jobs, and dynamically score host health.
 
 *Built for Windows diagnostics, optimization, and hardware telemetry with enterprise-grade architecture.*
+
+**[📖 Live Documentation](https://voonaa.github.io/aegis-core/)** | **[📥 Download Latest Release](https://github.com/Voonaa/aegis-core/releases)**
 
 **Current Stable Version:** `1.0.0`
 

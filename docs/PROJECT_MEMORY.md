@@ -37,6 +37,7 @@ This file is the single source of truth for the current state of development. **
   - Gold-Portfolio-Sprint-1 (Epic 1: Repository Branding & Documentation Refactoring)
   - Gold-Portfolio-Sprint-2 (Epic 3: Professional GitHub Release Experience & Polish)
   - Gold-Portfolio-Sprint-3 (Epic 4: GitHub Pages Documentation & Polish)
+  - Gold-Portfolio-Sprint-4 (Epic 5: GitHub Pages Deployment)
 * **Current Active Focus**: Portfolio Edition — Production Maintenance Mode.
 
 ### File Registry Status
@@ -190,7 +191,8 @@ Aegis/ (c:\tools Advan)
 ---
 
 ## 5. Next Steps
-* Gold-Portfolio-Sprint-3 (Epic 4: GitHub Pages Documentation) is completed successfully.
-* Professional Material for MkDocs website static code compiled inside docs-site/ site directory.
+* Gold-Portfolio-Sprint-4 (Epic 5: GitHub Pages Deployment) is completed successfully.
+* Modern deployment automation workflow configured under `.github/workflows/pages.yml`.
+* Live Documentation badge and CTA buttons integrated in `README.md`.
 * The repository is now fully finalized for production maintenance mode.
 * Any future work requires explicit Technical Lead approval.

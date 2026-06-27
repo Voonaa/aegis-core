@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Release Assets Inclusion**: Integrated `manifest.json`, `coverage.xml`, and benchmark reports into the standard build pipeline and release uploads.
 - **Clean Index Enforcement**: Cleaned up the git cached index to ensure untracked report directories are ignored globally according to `.gitignore` specifications.
 - **Aegis Documentation Website (Epic 4)**: Created Material for MkDocs static site layout inside `docs-site/` complete with 16 pages, Gantt roadmaps, custom footers, multi-tier sequence diagrams, and detailed FAQ list of 30 items.
+- **GitHub Pages Deployment (Epic 5)**: Established automated GitHub Actions deployment workflow for documentation site inside `.github/workflows/pages.yml` using modern Pages actions, and integrated live docs badges/buttons into the main `README.md`.
 
 ## [Gold-Portfolio-Sprint-1] - 2026-06-27
 
