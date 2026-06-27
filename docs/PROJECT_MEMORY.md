@@ -34,7 +34,11 @@ This file is the single source of truth for the current state of development. **
   - Gold Sprint 6 (Analytics & Historical Dashboard)
   - v1.0.0-rc4 (Release Candidate 4)
   - v1.0.0 (Official Stable Production Release)
-* **Current Active Focus**: Completed (Production Maintenance Mode).
+  - Gold-Portfolio-Sprint-1 (Epic 1: Repository Branding & Documentation Refactoring)
+  - Gold-Portfolio-Sprint-2 (Epic 3: Professional GitHub Release Experience & Polish)
+  - Gold-Portfolio-Sprint-3 (Epic 4: GitHub Pages Documentation & Polish)
+  - Gold-Portfolio-Sprint-4 (Epic 5: GitHub Pages Deployment)
+* **Current Active Focus**: Portfolio Edition — Production Maintenance Mode.
 
 ### File Registry Status
 * `requirements.txt`: **[COMPLETED]** - Dependencies for Aegis.
@@ -51,8 +55,15 @@ This file is the single source of truth for the current state of development. **
 * `plugins/example_plugin/`: **[COMPLETED]** - Extensibility runtime demo example (`manifest.json`, `main.py`).
 * `scripts/`: **[COMPLETED]** - Static checks (`lint.ps1`), release pipeline (`release.ps1`), and benchmarks (`benchmark.py`).
 * `tests/`: **[COMPLETED]** - Unit test suites.
-* `reports/`: **[COMPLETED]** - Unified folder containing benchmark SVG/JSONs, htmlcov reports, diagnostics, and release portable packages.
-* `release/`: **[COMPLETED]** - Portable release outputs and checksum maps.
+* `reports/`: **[COMPLETED]** - Unified folder containing benchmark SVG/JSONs, htmlcov reports, diagnostics, and release portable packages (globally ignored).
+* `docs/ARCHITECTURE.md`: **[COMPLETED]** - Updated with v1.0.0 accurate monorepo layout and design patterns.
+* `docs/ROADMAP.md`: **[COMPLETED]** - Updated with full sprint history and Gold Phase status.
+* `docs/cli.md`: **[COMPLETED]** - CLI command reference with examples and output samples.
+* `docs/sdk.md`: **[COMPLETED]** - HardwareSDK, RepairSDK, ReportSDK API reference documentation.
+* `docs/plugins.md`: **[COMPLETED]** - Plugin system guide with manifest spec, lifecycle hooks, and working example.
+* `docs/developer-guide.md`: **[COMPLETED]** - Developer setup, testing, linting, and contribution guide.
+* `docs/release-guide.md`: **[COMPLETED]** - Release pipeline and GitHub Actions workflow documentation.
+* `docs/faq.md`: **[COMPLETED]** - Common questions on installation, usage, and development.
 
 ---
 
@@ -62,7 +73,8 @@ This file is the single source of truth for the current state of development. **
 Aegis/ (c:\tools Advan)
 ├── .github/
 │   └── workflows/
-│       └── ci.yml
+│       ├── ci.yml
+│       └── release.yml
 ├── .gitignore
 ├── CHANGELOG.md
 ├── requirements.txt
@@ -70,6 +82,7 @@ Aegis/ (c:\tools Advan)
 ├── scripts/
 │   ├── lint.ps1
 │   ├── release.ps1
+│   ├── release_validator.py
 │   └── benchmark.py
 ├── apps/
 │   └── desktop/
@@ -77,8 +90,7 @@ Aegis/ (c:\tools Advan)
 │       ├── main.py
 │       ├── config/
 │       │   ├── settings.json
-│       │   ├── theme.json
-│       │   └── build_metadata.json
+│       │   └── theme.json
 │       └── ui/
 │           ├── base_page.py
 │           ├── sidebar.py
@@ -145,20 +157,13 @@ Aegis/ (c:\tools Advan)
 │   └── example_plugin/
 │       ├── main.py
 │       └── manifest.json
-├── release/
-│   └── aegis_v1.0.0-rc2_portable/
-│       ├── Aegis.bat
-│       ├── CHANGELOG.md
-│       ├── checksums.sha256
-│       ├── pyproject.toml
-│       ├── requirements.txt
-│       ├── apps/
-│       ├── packages/
-│       └── plugins/
 └── tests/
     ├── __init__.py
+    ├── test_release_validator.py
     └── test_core/
         ├── __init__.py
+        ├── test_bootstrap.py
+        ├── test_command_registry.py
         ├── test_config.py
         ├── test_logger.py
         ├── test_container.py
@@ -166,10 +171,13 @@ Aegis/ (c:\tools Advan)
         ├── test_health_service.py
         ├── test_intelligence_model.py
         ├── test_jobs.py
+        ├── test_optimization.py
         ├── test_performance.py
         ├── test_plugin_loader.py
+        ├── test_privilege_service.py
         ├── test_profile_manager.py
         ├── test_recommendation.py
+        ├── test_report_service.py
         ├── test_sdk.py
         ├── test_telemetry_models.py
         └── test_windows_intelligence.py
@@ -178,9 +186,13 @@ Aegis/ (c:\tools Advan)
 ---
 
 ## 4. Known Issues & Blockers
-* **None**: RC3 release pipeline completed successfully.
+* **None**: v1.0.0 Gold Portfolio Sprint 1 completed successfully.
 
 ---
 
 ## 5. Next Steps
-* Proceed to Phase Beta (AI Engine: predictive health analytics, anomaly detection, and automated smart optimization rule structures).
+* Gold-Portfolio-Sprint-4 (Epic 5: GitHub Pages Deployment) is completed successfully.
+* Modern deployment automation workflow configured under `.github/workflows/pages.yml`.
+* Live Documentation badge and CTA buttons integrated in `README.md`.
+* The repository is now fully finalized for production maintenance mode.
+* Any future work requires explicit Technical Lead approval.

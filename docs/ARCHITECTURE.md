@@ -1,45 +1,138 @@
-# Architectural Design: Aegis Toolkit
+# Aegis Core Platform — Architecture
 
-## 1. Modular Architectural Layers
-
-Aegis is structured using a Clean Architecture design to maintain modularity.
-
-```mermaid
-graph TD
-    App[src/app.py - Launcher] --> UI[src/ui/ - Presentation Layer]
-    App --> Core[src/core/ - Infrastructure Layer]
-    UI --> Modules[src/modules/ - Automation Layer]
-    UI --> Core
-    Modules --> Core
-```
-
-### Layer Details
-
-1. **Launcher (`src/app.py`)**:
-   - Initializes configurations (`config/settings.json`), themes (`config/theme.json`).
-   - Runs the main CustomTkinter window loop.
-
-2. **Presentation Layer (`src/ui/`)**:
-   - **`app.py`**: Holds main frame layouts, navigation, and sidebar bindings.
-   - **`sidebar.py`**: Nav panel.
-   - **`dashboard.py`**: Telemetry metrics, health score indicators, and Matplotlib trend line canvas.
-   - **`widgets.py`**: Reusable elements: metric cards, custom progress indicators, log textboxes.
-   - **`console.py`** (New UI Component): Embedded console CLI textbox and input field handler.
-
-3. **Infrastructure Layer (`src/core/`)**:
-   - **`hardware.py`**: High-frequency CPU/RAM monitors and slow-frequency WMI queries.
-   - **`profile.py`** (New Core Component): Queries laptop manufacturer properties on boot and loads JSON profiles from `config/profiles/`.
-   - **`powershell.py`**: Background script process executor.
-   - **`logger.py`**: Logs file outputs to `logs/aegis.log` with subsystem categorizations.
-
-4. **Automation / Module Layer (`src/modules/`)**:
-   - Contains command executors and scripts.
-   - Organizes tasks (SFC checks, updates, virtualization repairs, env vars exports).
+> Dokumen ini menjelaskan arsitektur teknis platform Aegis Core Platform v1.0.0.
 
 ---
 
-## 2. Technical Communication Protocols
+## Monorepo Structure
 
-* **Polling Event Loops**: Hardware metrics are polled every 1000ms using CustomTkinter's `.after()` handler.
-* **Worker Threads**: Heavy operations run asynchronously inside background threads to keep the UI responsive.
-* **CLI Routing Engine**: Text commands entered in the Developer Console are routed through `modules/console_router.py` to trigger corresponding execution methods.
+Aegis dibangun sebagai **decoupled monorepo** yang memisahkan core engine, desktop GUI, SDK publik, dan plugin extension secara tegas.
+
+```text
+aegis-core/
+├── apps/
+│   └── desktop/            # CustomTkinter GUI presentation layer
+│       ├── main.py          # Entry point & bootstrap orchestrator
+│       ├── app.py           # AegisApp window class
+│       ├── ui/              # Page views (dashboard, monitor, maintenance, report, settings)
+│       └── config/          # Runtime config (settings.json, theme.json, profiles/)
+├── packages/
+│   ├── core/               # Business logic & platform services
+│   │   ├── hal/            # Hardware Abstraction Layer (CPU, RAM, GPU, Disk, Battery)
+│   │   ├── services/       # Service layer (health, optimization, telemetry, export)
+│   │   ├── repositories/   # Data access layer (TelemetryRepository -> SQLite)
+│   │   ├── models/         # Domain data models (TelemetrySnapshot, IntelligenceScore)
+│   │   ├── plugins/        # Plugin loader & lifecycle manager
+│   │   ├── bootstrap.py    # Dependency Injection container registration
+│   │   ├── container.py    # DI ServiceContainer
+│   │   └── event_bus.py    # Decoupled publish/subscribe event system
+│   └── sdk/                # Public API surface for external consumers
+│       ├── hardware.py     # HardwareSDK entry point
+│       ├── repair.py       # RepairSDK entry point
+│       └── report.py       # ReportSDK entry point
+├── plugins/                # Runtime extension manifests
+├── scripts/                # Release automation & quality tooling
+├── tests/                  # Unit test suites (99 tests)
+├── installer/              # Inno Setup configuration
+├── docs/                   # Documentation
+└── version.txt             # Single Source of Truth for version string
+```
+
+---
+
+## Core Design Patterns
+
+### 1. Dependency Injection (DI)
+
+Semua service diregistrasi melalui `bootstrap_services()` di `packages/core/bootstrap.py` dan dikonsumsi melalui `ServiceContainer`:
+
+```python
+container = ServiceContainer()
+bootstrap_services(container, config, profiles_dir)
+
+hardware = container.get("hardware_service")
+health   = container.get("health_service")
+```
+
+---
+
+### 2. Hardware Abstraction Layer (HAL)
+
+HAL mengisolasi semua query WMI/psutil dari business logic:
+
+```text
+WMI / WinReg / psutil
+        |
+        v
+  HAL Components
+  +-- CpuHAL     -> utilization, temp, model, cores
+  +-- RamHAL     -> used_gb, total_gb, percentage
+  +-- StorageHAL -> used_gb, total_gb, wear_level, SMART status
+  +-- BatteryHAL -> percentage, is_charging, health_percent
+  +-- GpuHAL     -> vram_used, vram_total, gpu_load
+```
+
+---
+
+### 3. Event Bus (Publish/Subscribe)
+
+Komponen berkomunikasi secara decoupled melalui `EventBus`:
+
+```python
+event_bus.subscribe("telemetry.updated", handler_fn)
+event_bus.publish("telemetry.updated", snapshot)
+```
+
+---
+
+### 4. Repository Pattern
+
+Akses data SQLite diisolasi di layer repository:
+
+```text
+Service Layer -> TelemetryRepository -> SQLite Database (telemetry.db)
+```
+
+---
+
+### 5. Strategy Pattern (Export)
+
+```text
+ExportService
++-- CSVExportStrategy
++-- JSONExportStrategy
++-- MarkdownExportStrategy
++-- HTMLExportStrategy
+```
+
+---
+
+## System Data Flow
+
+```text
+Hardware (WMI / WinReg / psutil)
+        |
+        v
+HAL Telemetry Components
+        |
+        v
+TelemetrySnapshot (Domain Model)
+        |
+        +---> HealthEngine -> HealthScore -> RecommendationEngine
+        |
+        +---> TelemetryRepository -> SQLite (history)
+        |
+        +---> EventBus -> "telemetry.updated"
+                              |
+                              v
+                      GUI Desktop Viewports
+                      (Dashboard, Monitor, Report)
+```
+
+---
+
+## Further Reading
+
+- [Developer Guide](developer-guide.md) — Setup environment dan cara berkontribusi
+- [SDK Reference](sdk.md) — API publik untuk integrasi eksternal
+- [Plugin System](plugins.md) — Cara menulis extension plugins

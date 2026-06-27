@@ -1,0 +1,70 @@
+site_name: Aegis Core Platform
+site_url: https://voonaa.github.io/aegis-core/
+site_description: Enterprise-grade Windows diagnostics, optimization, and hardware telemetry platform.
+site_author: Aegis Core Maintainers
+
+theme:
+  name: material
+  language: en
+  favicon: assets/logo.png
+  logo: assets/logo.png
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - scheme: slate
+      primary: black
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+extra:
+  copyright: 'Aegis Core Platform | Version 1.0.0 | MIT License | <a href="https://github.com/Voonaa/aegis-core" target="_blank" rel="noopener">GitHub Repository</a>'
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - tables
+  - attr_list
+  - md_in_html
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Installation: installation.md
+  - Architecture: architecture.md
+  - User Guide:
+      - Overview: user-guide.md
+      - Telemetry Monitoring: monitoring.md
+      - System Optimization: optimization.md
+      - Diagnostic Reporting: reporting.md
+  - CLI Reference: cli.md
+  - SDK: sdk.md
+  - Plugin Development: plugins.md
+  - Developer Guide: developer.md
+  - Release Process: release.md
+  - Roadmap: roadmap.md
+  - FAQ: faq.md
+  - Changelog: changelog.md

@@ -76,7 +76,11 @@ class AboutDialog(ctk.CTkToplevel):
             "profile": "Generic Host Profile"
         }
         try:
-            meta_path = Path(__file__).resolve().parent / "config" / "build_metadata.json"
+            root_dir = Path(__file__).resolve().parent.parent.parent
+            meta_path = root_dir / "reports" / "release" / "build_metadata.json"
+            if not meta_path.exists():
+                meta_path = root_dir / "build_metadata.json"
+            
             if meta_path.exists():
                 with open(meta_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
