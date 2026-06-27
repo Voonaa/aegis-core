@@ -7,10 +7,10 @@ into the Aegis ServiceContainer dependency injection shell.
 from pathlib import Path
 from packages.core.container import ServiceContainer
 from packages.core.config_manager import ConfigManager
-from packages.core.theme import ThemeManager
+from apps.desktop.ui.theme import ThemeManager
 from packages.core.services.privilege_service import PrivilegeService
 from packages.core.event_bus import EventBus
-from packages.core.services.job_manager import JobManager
+from packages.core.jobs import JobManager
 from packages.core.services.repair_service import RepairService
 from packages.core.services.maintenance_service import MaintenanceService
 from packages.core.services.health_service import HealthService as HealthEngine
@@ -78,7 +78,7 @@ def bootstrap_services(
 
     # 9. Initialize & Register ProfileManager
     profile_manager = ProfileManager(profiles_dir=profiles_dir)
-    container.register("profile_manager", profile_manager)
+    container.register("profile_mgr", profile_manager)
 
     # 10. Initialize & Register RecommendationService
     recommendation_service = RecommendationService()

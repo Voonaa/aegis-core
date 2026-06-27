@@ -4,7 +4,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen)](#)
-[![Version](https://img.shields.io/badge/version-1.0.0--rc4-orange)](#)
+[![Version](https://img.shields.io/badge/version-1.0.0--rc5-orange)](#)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-lightgrey)](#)
 
 > **One Click. One Platform. Total Control.**

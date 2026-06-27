@@ -19,7 +19,7 @@ logger = get_subsystem_logger("SYSTEM")
 # Configuration defaults as fallback
 DEFAULT_SETTINGS: dict = {
     "app_name": "Aegis Core Platform",
-    "version": "1.0.0-rc2",
+    "version": "1.0.0-rc5",
     "log_level": "INFO",
     "telemetry_interval_ms": 1000,
     "admin_required": True
@@ -57,7 +57,7 @@ class AboutDialog(ctk.CTkToplevel):
 
     def _load_metadata(self) -> dict:
         metadata = {
-            "version": "1.0.0-rc2",
+            "version": "1.0.0-rc5",
             "build_timestamp": "Local Development",
             "commit_hash": "DEBUG-DEV",
             "python_version": platform.python_version(),
@@ -200,7 +200,7 @@ class AegisApp(ctk.CTk):
         ctk.set_default_color_theme("blue")
 
         # Window properties config
-        self.title(f"🛡 {self.config.get('app_name')} - v{self.config.get('version')} RC2")
+        self.title(f"🛡 {self.config.get('app_name')} - v{self.config.get('version')}")
         self.geometry("1020x660")
         self.minsize(800, 520)
         self.configure(fg_color=self.theme.get_color("bg_primary"))
@@ -216,6 +216,13 @@ class AegisApp(ctk.CTk):
         # Subscribe to notification events
         self.event_bus.subscribe(events.NOTIFICATION_TRIGGERED, self.show_notification)
 
+        import sys
+        if "--capture-screenshots" in sys.argv:
+            # Force size and coordinate parameters to lock screen position
+            self.geometry("1020x660+100+100")
+            self.update_idletasks()
+            self.after(2000, self._do_automated_captures)
+
     def _build_interface(self) -> None:
         """Create and grid core layout frame elements."""
         spacing_xs = self.theme.get_spacing("spacing_xs")
@@ -228,7 +235,7 @@ class AegisApp(ctk.CTk):
             master=self,
             theme=self.theme,
             on_navigate=self.navigate_to,
-            version=self.config.get("version", "1.0.0-rc2")
+            version=self.config.get("version", "1.0.0-rc5")
         )
         self.sidebar.grid(row=0, column=0, rowspan=2, sticky="nsew")
 
@@ -334,3 +341,56 @@ class AegisApp(ctk.CTk):
         """Spawns the About Dialog modal."""
         logger.info("Spawning About modal dialog overlay.")
         AboutDialog(self, self.theme)
+
+    def _do_automated_captures(self) -> None:
+        """Automatically captures real screenshots of each view page using PIL."""
+        import os
+        from PIL import ImageGrab
+        
+        # Ensure directories exist
+        os.makedirs("docs/assets", exist_ok=True)
+        
+        pages_to_capture = [
+            ("Dashboard", "dashboard.png"),
+            ("Monitor", "monitor.png"),
+            ("Maintenance", "optimization.png"),
+            ("Report", "report.png"),
+            ("Settings", "settings.png")
+        ]
+        
+        step_delay = 1200  # milliseconds between steps to allow rendering
+        
+        def run_step(index: int) -> None:
+            if index >= len(pages_to_capture):
+                logger.info("Automation screenshot sequence completed successfully. Shutting down...")
+                self.destroy()
+                return
+                
+            page_name, filename = pages_to_capture[index]
+            self.navigate_to(page_name)
+            self.update()
+            
+            # Brief delay to let graphs draw or layout stabilize
+            self.after(500, lambda: capture_and_next(index, filename))
+            
+        def capture_and_next(index: int, filename: str) -> None:
+            try:
+                # Capture window bounding client area coordinate frame
+                x = self.winfo_rootx()
+                y = self.winfo_rooty()
+                w = self.winfo_width()
+                h = self.winfo_height()
+                
+                box = (x, y, x + w, y + h)
+                img = ImageGrab.grab(bbox=box)
+                img_path = f"docs/assets/{filename}"
+                img.save(img_path)
+                logger.info(f"Captured real screen: {img_path} ({w}x{h})")
+            except Exception as ex:
+                logger.error(f"Failed to capture screen step: {ex}")
+                
+            # Process next page
+            self.after(step_delay, lambda: run_step(index + 1))
+            
+        # Start the sequence
+        run_step(0)

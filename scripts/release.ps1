@@ -39,7 +39,7 @@ New-Item -ItemType Directory -Path $PortableDir -Force | Out-Null
 
 # 4. Generate build metadata
 Write-Host "`n[Step 4] Compiling Build Metadata..." -ForegroundColor Yellow
-$Version = "1.0.0-rc4"
+$Version = "1.0.0-rc5"
 $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 $Commit = "UNKNOWN"
 try {

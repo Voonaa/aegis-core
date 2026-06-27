@@ -257,10 +257,9 @@ def register_default_cli_commands(registry: CommandRegistry, container: ServiceC
 def main() -> None:
     """Main execution bootstrap function."""
     # Resolve root directories
-    project_root = Path(__file__).resolve().parent.parent
-    config_file = project_root / "apps" / "desktop" / "config" / "settings.json"
-    profiles_dir = project_root / "apps" / "desktop" / "config" / "profiles"
-    plugins_dir = project_root / "plugins"
+    config_file = PROJECT_ROOT / "apps" / "desktop" / "config" / "settings.json"
+    profiles_dir = PROJECT_ROOT / "apps" / "desktop" / "config" / "profiles"
+    plugins_dir = PROJECT_ROOT / "plugins"
 
     # Instantiate Singleton Service Container
     container = ServiceContainer()
