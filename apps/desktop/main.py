@@ -192,6 +192,11 @@ def main() -> None:
     hardware_service = HardwareService(container=container, demo_mode=demo_mode)
     container.register("hardware_service", hardware_service)
 
+    # 15. Initialize & Register WindowsIntelligenceService
+    from packages.core.services.windows_intelligence import WindowsIntelligenceService
+    intelligence_service = WindowsIntelligenceService()
+    container.register("intelligence_service", intelligence_service)
+
     # Pre-register default console scripts
     register_default_cli_commands(cmd_registry, container)
 

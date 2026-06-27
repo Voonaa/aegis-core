@@ -10,6 +10,8 @@ from apps.desktop.ui.console import DeveloperConsoleFrame
 from apps.desktop.ui.dashboard import DashboardPage
 from apps.desktop.ui.maintenance import MaintenancePage
 from apps.desktop.ui.settings import SettingsPage
+from apps.desktop.ui.monitor import MonitorPage
+from apps.desktop.ui.report import ReportPage
 from packages.core.logger import get_subsystem_logger
 
 logger = get_subsystem_logger("SYSTEM")
@@ -244,15 +246,17 @@ class AegisApp(ctk.CTk):
         )
         self.console.grid(row=1, column=0, padx=spacing_xl, pady=(spacing_xs, spacing_md), sticky="ew")
 
-        # 4. Instantiate Viewport Pages (Dashboard, Maintenance, Settings)
+        # 4. Instantiate Viewport Pages
         self.pages: dict[str, any] = {
             "Dashboard": DashboardPage(self.right_container, self.theme),
+            "Monitor": MonitorPage(self.right_container, self.theme),
             "Maintenance": MaintenancePage(
                 master=self.right_container,
                 theme=self.theme,
                 log_callback=self.console.write_log
             ),
-            "Settings": SettingsPage(self.right_container, self.theme)
+            "Report": ReportPage(self.right_container, self.theme),
+            "Settings": SettingsPage(self.right_container, self.theme),
         }
 
         # 5. Bottom Status bar indicator panel
@@ -286,6 +290,13 @@ class AegisApp(ctk.CTk):
         Args:
             page_name: Targeted page view identifier name.
         """
+        # About is a dialog, not a page
+        if page_name == "About":
+            self.show_about_dialog()
+            # Reset sidebar highlight back to active page
+            self.sidebar._highlight_button(self.active_page_name)
+            return
+
         if page_name not in self.pages:
             logger.error(f"Routing request failed. Unknown page path target: {page_name}")
             return

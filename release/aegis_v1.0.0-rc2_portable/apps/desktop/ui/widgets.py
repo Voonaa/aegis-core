@@ -223,3 +223,93 @@ class StatusBadge(ctk.CTkFrame):
         color = self.theme.get_color(color_token)
         self.canvas.delete("all")
         self.canvas.create_oval(2, 2, 12, 12, fill=color, outline="")
+
+class LiveChart(ctk.CTkFrame):
+    """Real-time performance sparkline/chart widget utilizing a Tkinter Canvas."""
+
+    def __init__(self, master: any, theme: ThemeManager, title: str, max_points: int = 30) -> None:
+        """Initialize the Live Chart widget."""
+        super().__init__(
+            master=master,
+            corner_radius=theme.get_radius("corner_radius_lg"),
+            fg_color=theme.get_color("bg_card"),
+            border_width=1,
+            border_color=theme.get_color("border")
+        )
+        self.theme = theme
+        self.title = title
+        self.max_points = max_points
+        self.data_points = []
+
+        spacing_xs = theme.get_spacing("spacing_xs")
+        spacing_sm = theme.get_spacing("spacing_sm")
+        spacing_md = theme.get_spacing("spacing_md")
+
+        # Label Header
+        self.title_lbl = ctk.CTkLabel(
+            self,
+            text=title.upper(),
+            font=theme.get_font("font_size_sm", "bold"),
+            text_color=theme.get_color("text_muted")
+        )
+        self.title_lbl.pack(anchor="w", padx=spacing_md, pady=(spacing_md, spacing_xs))
+
+        # Canvas drawing container
+        self.canvas = tk.Canvas(
+            self,
+            bg=theme.get_color("bg_primary"),
+            highlightthickness=0
+        )
+        self.canvas.pack(fill="both", expand=True, padx=spacing_md, pady=(0, spacing_md))
+        self.canvas.bind("<Configure>", lambda e: self.redraw())
+
+    def add_point(self, value: float) -> None:
+        """Appends a new data value and redraws the sparkline."""
+        self.data_points.append(value)
+        if len(self.data_points) > self.max_points:
+            self.data_points.pop(0)
+        self.redraw()
+
+    def redraw(self) -> None:
+        """Repaints the sparkline canvas."""
+        self.canvas.delete("all")
+        width = self.canvas.winfo_width()
+        height = self.canvas.winfo_height()
+
+        if width <= 10 or height <= 10 or not self.data_points:
+            return
+
+        # Draw grid lines
+        grid_color = self.theme.get_color("border")
+        for i in range(1, 4):
+            y = int((height / 4) * i)
+            self.canvas.create_line(0, y, width, y, fill=grid_color, dash=(2, 4))
+
+        # Map points
+        points = []
+        step = width / max(1, (self.max_points - 1))
+        max_val = max(100.0, max(self.data_points) if self.data_points else 1.0)
+        
+        for idx, val in enumerate(self.data_points):
+            x = idx * step
+            # Normalise to height (0% load at bottom, 100% load at top)
+            y = height - ((val / max_val) * (height - 15)) - 10
+            points.append((x, y))
+
+        if len(points) > 1:
+            line_color = self.theme.get_color("accent_primary")
+            # Draw line segments
+            for i in range(len(points) - 1):
+                x1, y1 = points[i]
+                x2, y2 = points[i+1]
+                self.canvas.create_line(x1, y1, x2, y2, fill=line_color, width=2, smooth=True)
+
+            # Draw latest value text
+            latest_val = self.data_points[-1]
+            self.canvas.create_text(
+                width - 10, 15,
+                text=f"{latest_val:.1f}",
+                fill=self.theme.get_color("text_primary"),
+                anchor="ne",
+                font=("Segoe UI", 10, "bold")
+            )

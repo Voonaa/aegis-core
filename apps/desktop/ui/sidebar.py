@@ -75,8 +75,11 @@ class SidebarFrame(ctk.CTkFrame):
 
         menu_items = [
             ("Dashboard", "🏠"),
+            ("Monitor", "📊"),
             ("Maintenance", "🛠"),
-            ("Settings", "⚙")
+            ("Report", "📄"),
+            ("Settings", "⚙"),
+            ("About", "ℹ"),
         ]
 
         for i, (name, icon) in enumerate(menu_items):
@@ -97,6 +100,7 @@ class SidebarFrame(ctk.CTkFrame):
 
         # Highlight default page Selection state
         self._highlight_button(self.active_page)
+
 
         # Row 2: Footer Version display
         footer = ctk.CTkLabel(

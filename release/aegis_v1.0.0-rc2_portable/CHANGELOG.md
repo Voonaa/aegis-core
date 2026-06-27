@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0-rc3] - 2026-06-27
+
+### Added
+- **Gold Sprint 1 (Real Hardware Integration)**: Disabled simulated Demo Mode by default and migrated the HAL harvesters to query real processor telemetry, NVMe SSD SMART records, ACPI battery capacity values, GPU engine performance, and gateway network round-trip ping latency.
+
 ## [1.0.0-rc2] - 2026-06-27
 
 ### Added
