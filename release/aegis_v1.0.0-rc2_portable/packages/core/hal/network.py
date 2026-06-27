@@ -1,7 +1,9 @@
 """Network configurations harvester module for Aegis HAL."""
 
-from typing import NamedTuple
 import psutil
+import subprocess
+import re
+from typing import NamedTuple
 from packages.core.logger import get_subsystem_logger
 
 logger = get_subsystem_logger("SYSTEM")
@@ -13,9 +15,11 @@ class NetworkInfo(NamedTuple):
     gateway_ip: str
     dns_servers: list[str]
     signal_strength_percent: int
+    network_latency_ms: float
+
 
 class NetworkComponent:
-    """Network configurations query module reading WMI adapter adapters configurations."""
+    """Network configurations query module reading WMI adapter configurations."""
 
     def __init__(self) -> None:
         """Initialize the Network Component."""
@@ -35,6 +39,7 @@ class NetworkComponent:
         gateway = "192.168.1.1"
         dns = ["8.8.8.8", "1.1.1.1"]
         signal = 88
+        latency = 2.0
 
         try:
             import wmi
@@ -58,6 +63,24 @@ class NetworkComponent:
                 dns_search = getattr(conf, "DNSServerSearchOrder", None)
                 if dns_search:
                     dns = list(dns_search)
+
+            # Measure ping latency to gateway
+            if gateway:
+                try:
+                    # Single ping command with a 500ms timeout
+                    out = subprocess.run(
+                        ["ping", "-n", "1", "-w", "500", gateway],
+                        capture_output=True,
+                        text=True,
+                        creationflags=0x08000000  # CREATE_NO_WINDOW
+                    )
+                    if out.returncode == 0:
+                        match = re.search(r"time[=<](\d+)ms", out.stdout)
+                        if match:
+                            latency = float(match.group(1))
+                except Exception:
+                    pass
+
         except Exception as ex:
             logger.warning(f"Failed to query WMI active network configs: {ex}. Using fallback defaults.")
 
@@ -66,7 +89,8 @@ class NetworkComponent:
             ip_address=ip,
             gateway_ip=gateway,
             dns_servers=dns,
-            signal_strength_percent=signal
+            signal_strength_percent=signal,
+            network_latency_ms=latency
         )
 
     def get_capabilities(self) -> dict[str, bool]:

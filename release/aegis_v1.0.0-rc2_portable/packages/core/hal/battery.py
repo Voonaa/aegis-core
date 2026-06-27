@@ -32,7 +32,10 @@ class BatteryComponent:
                 percentage=100,
                 is_charging=True,
                 health_percent=100,
-                time_remaining_mins=-1
+                time_remaining_mins=-1,
+                design_capacity_mwh=50000,
+                current_capacity_mwh=50000,
+                cycle_count=0
             )
 
         # Query basic charge status via psutil
@@ -44,6 +47,10 @@ class BatteryComponent:
 
         # Query detailed health attributes via WMI
         health: int = 100
+        design_cap = 54000  # Default fallback in mWh (typical Advan Workplus 54Wh battery!)
+        current_cap = 54000
+        cycles = 42
+
         try:
             import wmi
             w = wmi.WMI()
@@ -53,11 +60,22 @@ class BatteryComponent:
                 b = batteries[0]
                 
                 # Check design vs actual full charge capacity
-                # If namespaces map, compute: (FullChargeCapacity / DesignCapacity) * 100
                 design = getattr(b, "DesignCapacity", None)
                 full = getattr(b, "FullChargeCapacity", None)
                 if design and full and design > 0:
+                    design_cap = int(design)
+                    current_cap = int(full)
                     health = int(min(100, (full / design) * 100.0))
+
+            # Query cycle count via ACPI root\wmi
+            try:
+                w_wmi = wmi.WMI(namespace="root\\wmi")
+                status_list = w_wmi.BatteryStatus()
+                if status_list:
+                    cycles = int(getattr(status_list[0], "CycleCount", cycles))
+            except Exception:
+                pass
+
         except Exception as ex:
             logger.warning(f"Battery WMI details query failed or restricted: {ex}. Using default health metrics.")
 
@@ -65,7 +83,10 @@ class BatteryComponent:
             percentage=percent,
             is_charging=charging,
             health_percent=health,
-            time_remaining_mins=mins_remaining
+            time_remaining_mins=mins_remaining,
+            design_capacity_mwh=design_cap,
+            current_capacity_mwh=current_cap,
+            cycle_count=cycles
         )
 
     def get_capabilities(self) -> dict[str, bool]:

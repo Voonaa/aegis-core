@@ -129,8 +129,11 @@ class HardwareService:
             os=os_info,
             health_score=health_score,
             gpu_model=gpu_info.model_name,
+            gpu_utilization=gpu_info.utilization,
+            gpu_temperature=gpu_info.temperature,
             network_adapter=net_info.adapter_name,
-            ip_address=net_info.ip_address
+            ip_address=net_info.ip_address,
+            network_latency_ms=net_info.network_latency_ms
         )
 
     def _gather_simulated_telemetry(self) -> TelemetryReport:
@@ -142,7 +145,9 @@ class HardwareService:
             utilization=cpu_util,
             temperature=cpu_temp,
             model_name=self.cpu_comp.cpu_name,
-            frequency_ghz=3.3
+            frequency_ghz=3.3,
+            voltage=1.12,
+            power_draw_watts=round(random.uniform(6.5, 18.0), 1)
         )
 
         # Fluctuating RAM
@@ -158,7 +163,10 @@ class HardwareService:
             total_gb=512.0,
             percentage=84.2 / 512.0,
             health_percent=96,
-            status="Good"
+            status="Good",
+            temperature=38.0,
+            power_on_hours=1320,
+            host_writes_gb=5420.2
         )
 
         # Changing battery level
@@ -166,7 +174,10 @@ class HardwareService:
             percentage=92,
             is_charging=True,
             health_percent=92,
-            time_remaining_mins=180
+            time_remaining_mins=180,
+            design_capacity_mwh=54000,
+            current_capacity_mwh=51020,
+            cycle_count=48
         )
 
         os_info = OSInfo(
@@ -194,6 +205,9 @@ class HardwareService:
             os=os_info,
             health_score=health_score,
             gpu_model="NVIDIA GeForce RTX 3050 Laptop (Simulated)",
+            gpu_utilization=round(random.uniform(2.0, 15.0), 1),
+            gpu_temperature=round(random.uniform(38.0, 48.0), 1),
             network_adapter="Intel(R) Wi-Fi 6E AX211 (Simulated)",
-            ip_address="192.168.1.124"
+            ip_address="192.168.1.124",
+            network_latency_ms=round(random.uniform(1.0, 8.0), 1)
         )

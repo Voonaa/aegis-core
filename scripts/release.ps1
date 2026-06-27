@@ -76,7 +76,7 @@ Write-Host "`n[Step 5] Assembling Portable Release Files..." -ForegroundColor Ye
 $FoldersToCopy = @("apps", "packages", "plugins")
 foreach ($folder in $FoldersToCopy) {
     $Src = Join-Path $ProjectRoot.FullName $folder
-    $Dst = Join-Path $PortableDir $folder
+    $Dst = $PortableDir
     if (Test-Path $Src) {
         Copy-Item -Path $Src -Destination $Dst -Recurse -Force
         Write-Host "  Copied folder: $folder" -ForegroundColor Gray

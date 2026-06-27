@@ -1,7 +1,6 @@
 """CPU telemetry harvester module for Aegis HAL."""
 
 import psutil
-from typing import Any
 from packages.core.models.telemetry import CPUInfo
 from packages.core.logger import get_subsystem_logger
 
@@ -69,11 +68,41 @@ class CPUComponent:
             except Exception:
                 pass
 
+        # Query voltage via WMI
+        voltage = 1.1 # Fallback default in Volts
+        try:
+            import wmi
+            w = wmi.WMI()
+            processors = w.Win32_Processor()
+            if processors and processors[0].CurrentVoltage:
+                # CurrentVoltage represents tenths of a volt or special bit masks
+                volts_raw = processors[0].CurrentVoltage
+                if volts_raw > 0:
+                    # If high bit is not set, raw value is voltage * 10
+                    if not (volts_raw & 0x80):
+                        voltage = round(volts_raw / 10.0, 2)
+                    else:
+                        voltage = round((volts_raw & 0x7F) / 10.0, 2)
+        except Exception:
+            pass
+
+        # Estimate Power Draw (Ryzen 5 6600H default base TDP: 45W)
+        tdp_watts = 45.0
+        if "Ryzen" in self.cpu_name:
+            tdp_watts = 45.0
+        elif "Intel" in self.cpu_name:
+            tdp_watts = 45.0
+        
+        # Scaling model: Idle base draw (approx 5W) + utilization tdp contribution
+        power_draw = round(5.0 + (util / 100.0) * (tdp_watts - 5.0), 1)
+
         return CPUInfo(
             utilization=util,
             temperature=temp,
             model_name=self.cpu_name,
-            frequency_ghz=freq
+            frequency_ghz=freq,
+            voltage=voltage,
+            power_draw_watts=power_draw
         )
 
     def get_capabilities(self) -> dict[str, bool]:
