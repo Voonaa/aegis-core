@@ -1,5 +1,7 @@
 # 🛡 Aegis Core Platform
 
+![Aegis Core Platform Banner](assets/banner.png)
+
 [![CI](https://img.shields.io/github/actions/workflow/status/Voonaa/aegis-core/ci.yml?branch=develop&label=CI&logo=githubactions&logoColor=white)](https://github.com/Voonaa/aegis-core/actions)
 [![Release](https://img.shields.io/github/v/release/Voonaa/aegis-core?label=release&color=orange&logo=github)](https://github.com/Voonaa/aegis-core/releases)
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.14-3776ab?logo=python&logoColor=white)](https://www.python.org/)
