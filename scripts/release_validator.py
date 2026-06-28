@@ -1,4 +1,4 @@
-﻿"""Aegis Core Platform — Release Artifact Validator.
+"""Aegis Core Platform — Release Artifact Validator.
 
 Validates only release artifacts. Does NOT check coverage or benchmark reports.
 Those belong to the CI pipeline (ci.yml).
@@ -136,7 +136,7 @@ class ReleaseValidator:
         for section in required_sections:
             pattern = rf"(#+\s+{section}|\*\*{section}\*\*|{section}:)"
             if not re.search(pattern, content, re.IGNORECASE):
-                return False, f"Required section missing in release_notes.md: {section}"
+                return False, f"Required section is missing in release notes: {section}"
         return True, "Release notes format validated successfully"
 
     def run_all_checks(self, release_dir):
