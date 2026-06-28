@@ -1,4 +1,4 @@
-﻿name: Aegis Release Pipeline
+name: Aegis Release Pipeline
 
 # Triggered only on version tags (e.g., v1.0.1, v2.0.0)
 # Responsibility: Package artifacts and publish GitHub Release.
@@ -54,6 +54,27 @@ jobs:
     - name: Validate Release Artifacts
       shell: pwsh
       run: .\scripts\validator.ps1
+
+    - name: Delete existing release for this tag (if any)
+      shell: pwsh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        $tag = "${{ github.ref_name }}"
+        $headers = @{
+            Authorization = "Bearer $env:GITHUB_TOKEN"
+            Accept        = "application/vnd.github+json"
+        }
+        try {
+            $release = Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/releases/tags/$tag" `
+                -Headers $headers -ErrorAction Stop
+            Write-Host "Found existing release id=$($release.id) for $tag — deleting..."
+            Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/releases/$($release.id)" `
+                -Method Delete -Headers $headers
+            Write-Host "Existing release deleted."
+        } catch {
+            Write-Host "No existing release found for $tag — proceeding."
+        }
 
     - name: Publish GitHub Release
       uses: softprops/action-gh-release@v2
