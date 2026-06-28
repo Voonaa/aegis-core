@@ -200,7 +200,7 @@ certutil -hashfile AegisSetup.exe SHA256
 certutil -hashfile AegisPortable.zip SHA256
 ```
 
-Compare the generated hash output with the official values listed inside [checksums.sha256](reports/release/checksums.sha256) or on the release attachments.
+Compare the generated hash output with the official values listed on the [GitHub Releases](https://github.com/Voonaa/aegis-core/releases) page attachments.
 
 ---
 
