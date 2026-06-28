@@ -55,25 +55,29 @@ jobs:
       shell: pwsh
       run: .\scripts\validator.ps1
 
-    - name: Delete existing release for this tag (if any)
+    - name: Delete all existing releases for this tag (including drafts)
       shell: pwsh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         $tag = "${{ github.ref_name }}"
+        $repo = "${{ github.repository }}"
         $headers = @{
             Authorization = "Bearer $env:GITHUB_TOKEN"
             Accept        = "application/vnd.github+json"
         }
-        try {
-            $release = Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/releases/tags/$tag" `
-                -Headers $headers -ErrorAction Stop
-            Write-Host "Found existing release id=$($release.id) for $tag — deleting..."
-            Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/releases/$($release.id)" `
-                -Method Delete -Headers $headers
-            Write-Host "Existing release deleted."
-        } catch {
-            Write-Host "No existing release found for $tag — proceeding."
+        # List all releases and delete any that match our tag (published or draft)
+        $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases?per_page=100" -Headers $headers
+        $matched = $releases | Where-Object { $_.tag_name -eq $tag }
+        if ($matched) {
+            foreach ($rel in $matched) {
+                Write-Host "Deleting release id=$($rel.id) draft=$($rel.draft) for tag $tag"
+                Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/$($rel.id)" `
+                    -Method Delete -Headers $headers
+            }
+            Write-Host "All existing releases for $tag deleted."
+        } else {
+            Write-Host "No existing releases found for $tag — proceeding."
         }
 
     - name: Publish GitHub Release
