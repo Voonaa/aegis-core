@@ -22,7 +22,7 @@ class RollbackEngine:
             container: DI Service container reference.
         """
         self.container = container
-        self.backups_dir = Path("apps/desktop/config/backups")
+        self.backups_dir = Path(os.environ.get("LOCALAPPDATA", os.path.expanduser("~"))) / "AegisCore" / "backups"
         self.backups_dir.mkdir(parents=True, exist_ok=True)
         logger.info("Rollback Engine initialized.")
 

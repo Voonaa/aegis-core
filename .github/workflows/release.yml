@@ -1,9 +1,14 @@
 name: Aegis Release Pipeline
 
+# Triggered only on version tags (e.g., v1.0.1, v2.0.0)
+# Responsibility: Package artifacts and publish GitHub Release.
+# Lint, tests, and coverage are handled by ci.yml on every push/PR.
+# Benchmarks must NOT run here (require physical hardware).
+
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 permissions:
   contents: write
@@ -19,45 +24,61 @@ jobs:
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
-        cache: 'pip'
+        python-version: "3.12"
+        cache: pip
 
-    - name: Set up Inno Setup Compiler (ISCC)
-      uses: fleskesvor/setup-iscc@v1
-
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-dev.txt
-
-    - name: Run Pytest Suite
-      run: |
-        $env:PYTHONPATH = "."
-        python -m pytest tests/ -v
+    - name: Install Inno Setup
       shell: pwsh
-
-    - name: Run Build and Release Script
       run: |
-        # Executing release script compiles portable directories and installer setup.exe via ISCC
-        .\scripts\release.ps1
-      shell: pwsh
+        choco install innosetup -y
+        $isccDir = Get-ChildItem -Path "C:\Program Files*" -Filter "ISCC.exe" -Recurse -ErrorAction SilentlyContinue |
+                   Select-Object -First 1 -ExpandProperty DirectoryName
+        if ($isccDir) {
+            Write-Host "Found ISCC.exe at: $isccDir"
+            $isccDir | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        } else {
+            throw "ISCC.exe not found after Chocolatey install."
+        }
 
-    - name: Assemble Final Release Assets
-      run: |
-        # Verify all built release binaries and notes exist in reports/release
-        $ReleaseDir = "reports/release"
-        Get-ChildItem -Path $ReleaseDir
-        
-        if (-not (Test-Path "$ReleaseDir/AegisSetup.exe")) { throw "AegisSetup.exe is missing" }
-        if (-not (Test-Path "$ReleaseDir/AegisPortable.zip")) { throw "AegisPortable.zip is missing" }
-        if (-not (Test-Path "$ReleaseDir/checksums.sha256")) { throw "checksums.sha256 is missing" }
-        if (-not (Test-Path "$ReleaseDir/release_notes.md")) { throw "release_notes.md is missing" }
-        if (-not (Test-Path "$ReleaseDir/manifest.json")) { throw "manifest.json is missing" }
-        if (-not (Test-Path "reports/coverage/coverage.xml")) { throw "coverage.xml is missing" }
-        if (-not (Test-Path "reports/benchmark/benchmark.md")) { throw "benchmark.md is missing" }
-        if (-not (Test-Path "reports/benchmark/benchmark.json")) { throw "benchmark.json is missing" }
+    - name: Verify ISCC
       shell: pwsh
+      run: Get-Command iscc
+
+    - name: Install Python Dependencies
+      run: pip install -r requirements.txt
+
+    - name: Build Release Artifacts
+      shell: pwsh
+      run: .\scripts\build.ps1
+
+    - name: Validate Release Artifacts
+      shell: pwsh
+      run: .\scripts\validator.ps1
+
+    - name: Delete all existing releases for this tag (including drafts)
+      shell: pwsh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        $tag = "${{ github.ref_name }}"
+        $repo = "${{ github.repository }}"
+        $headers = @{
+            Authorization = "Bearer $env:GITHUB_TOKEN"
+            Accept        = "application/vnd.github+json"
+        }
+        # List all releases and delete any that match our tag (published or draft)
+        $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases?per_page=100" -Headers $headers
+        $matched = $releases | Where-Object { $_.tag_name -eq $tag }
+        if ($matched) {
+            foreach ($rel in $matched) {
+                Write-Host "Deleting release id=$($rel.id) draft=$($rel.draft) for tag $tag"
+                Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/$($rel.id)" `
+                    -Method Delete -Headers $headers
+            }
+            Write-Host "All existing releases for $tag deleted."
+        } else {
+            Write-Host "No existing releases found for $tag — proceeding."
+        }
 
     - name: Publish GitHub Release
       uses: softprops/action-gh-release@v2
@@ -68,12 +89,9 @@ jobs:
           reports/release/checksums.sha256
           reports/release/release_notes.md
           reports/release/manifest.json
-          reports/coverage/coverage.xml
-          reports/benchmark/benchmark.md
-          reports/benchmark/benchmark.json
         body_path: reports/release/release_notes.md
         draft: false
         prerelease: true
-        name: Aegis Core Release ${{ github.ref_name }}
+        name: "Aegis Core Release ${{ github.ref_name }}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

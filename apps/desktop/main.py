@@ -256,10 +256,11 @@ def register_default_cli_commands(registry: CommandRegistry, container: ServiceC
 
 def main() -> None:
     """Main execution bootstrap function."""
-    # Resolve root directories
-    config_file = PROJECT_ROOT / "apps" / "desktop" / "config" / "settings.json"
-    profiles_dir = PROJECT_ROOT / "apps" / "desktop" / "config" / "profiles"
-    plugins_dir = PROJECT_ROOT / "plugins"
+    # Resolve root directories (writable LOCALAPPDATA paths — safe for Program Files installs)
+    from packages.core.constants.paths import CONFIG_DIR, PROFILES_DIR, INSTALL_DIR
+    config_file = CONFIG_DIR / "settings.json"
+    profiles_dir = PROFILES_DIR
+    plugins_dir = INSTALL_DIR / "plugins"
 
     # Instantiate Singleton Service Container
     container = ServiceContainer()

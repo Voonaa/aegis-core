@@ -6,6 +6,8 @@ from packages.core.services.export.strategies import (
     ExportStrategy, CSVExportStrategy, JSONExportStrategy, MarkdownExportStrategy, HTMLExportStrategy
 )
 
+from packages.core.constants.paths import APPDATA_DIR
+
 logger = get_subsystem_logger("SYSTEM")
 
 
@@ -14,7 +16,7 @@ class ExportService:
 
     def __init__(self) -> None:
         """Initialize the Export Service."""
-        self.diagnostics_dir = Path("reports/diagnostics")
+        self.diagnostics_dir = APPDATA_DIR / "reports" / "diagnostics"
         self.diagnostics_dir.mkdir(parents=True, exist_ok=True)
         
         # Registry strategies map
