@@ -36,9 +36,9 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "{#SourceDir}\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\Aegis Core Platform"; Filename: "{app}\Aegis.bat"; IconFilename: "{app}\apps\desktop\ui\assets\icon.ico"; Flags: runminimized
+Name: "{group}\Aegis Core Platform"; Filename: "{app}\Aegis.bat"; Flags: runminimized
 Name: "{group}\{cm:UninstallProgram,Aegis Core Platform}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\Aegis Core Platform"; Filename: "{app}\Aegis.bat"; IconFilename: "{app}\apps\desktop\ui\assets\icon.ico"; Tasks: desktopicon; Flags: runminimized
+Name: "{autodesktop}\Aegis Core Platform"; Filename: "{app}\Aegis.bat"; Tasks: desktopicon; Flags: runminimized
 
 [Run]
 Description: "{cm:LaunchProgram,Aegis Core Platform}"; Filename: "{app}\Aegis.bat"; Flags: shellexec postinstall nowait runminimized
