@@ -1,4 +1,4 @@
-name: Aegis CI/CD Build Pipeline
+﻿name: Aegis CI/CD Build Pipeline
 
 on:
   push:
@@ -17,8 +17,8 @@ jobs:
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
-        cache: 'pip'
+        python-version: "3.12"
+        cache: pip
 
     - name: Install Dependencies
       run: |
@@ -37,20 +37,18 @@ jobs:
       continue-on-error: true
 
     - name: Run Test Suite (Pytest + Coverage)
+      shell: pwsh
       run: |
         $env:PYTHONPATH = "."
-        python -m pytest tests/ -v --tb=short --cov=packages --cov-report=term --cov-report=xml:reports/coverage/coverage.xml --cov-report=html:reports/coverage/htmlcov
-      shell: pwsh
+        python -m pytest tests/ -v --tb=short `
+          --cov=packages `
+          --cov-report=term `
+          --cov-report=xml:reports/coverage/coverage.xml `
+          --cov-report=html:reports/coverage/htmlcov
 
-    - name: Run Performance Benchmark
-      run: |
-        python scripts/benchmark.py
-      shell: pwsh
-
-    - name: Upload Test Coverage and Benchmark Reports
+    - name: Upload Coverage Report
       uses: actions/upload-artifact@v4
       with:
-        name: aegis-quality-reports
-        path: reports/
+        name: aegis-coverage-report
+        path: reports/coverage/
         if-no-files-found: error
-

@@ -2,12 +2,14 @@
 ; Compile this script using Inno Setup Compiler (ISCC.exe)
 
 #ifndef MyAppVersion
-  #define MyAppVersion "1.0.0-rc4"
+  #define MyAppVersion "1.0.0"
 #endif
 #ifndef OutputBaseFilename
-  #define OutputBaseFilename "Aegis_Setup_v1.0.0-rc4"
+  #define OutputBaseFilename "AegisSetup"
 #endif
-
+#ifndef OutputDir
+  #define OutputDir "..\reports\release"
+#endif
 #ifndef SourceDir
   #define SourceDir "..\reports\release\aegis_v1.0.0_portable"
 #endif
@@ -21,7 +23,7 @@ DefaultGroupName=Aegis Core Platform
 UninstallDisplayIcon={app}\Aegis.bat
 Compression=lzma2
 SolidCompression=yes
-OutputDir=..\reports\release
+OutputDir={#OutputDir}
 OutputBaseFilename={#OutputBaseFilename}
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
